@@ -14,6 +14,9 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB
 {
+    /// <summary>
+    /// This is the main class where you define all the operations and apis.
+    /// </summary>
     [ServiceOperationsProvider(Id = CosmosDbServiceOperationProvider.ServiceId, Name = CosmosDbServiceOperationProvider.ServiceName)]
     public class CosmosDbServiceOperationProvider : IServiceOperationsTriggerProvider
     {
@@ -64,6 +67,10 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB
                     .ToValue<string>();
         }
 
+        /// <summary>
+        /// Implements the Swagger schema defining the input , output and scope.
+        /// </summary>
+        /// <returns></returns>
         private ServiceOperationManifest GetServiceOperationManifest()
         {
             return new ServiceOperationManifest
@@ -176,6 +183,10 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB
             };
         }
 
+        /// <summary>
+        /// If the registration of service provider is successful then this should resturn the trigger type.
+        /// </summary>
+        /// <returns></returns>
         public string GetFunctionTriggerType()
         {
             return "cosmosDBTrigger";
@@ -199,13 +210,20 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB
             return this.GetServiceOperationApi();
         }
 
+        /// <summary>
+        /// The CosmosDB service provider is only trigger based connector hence skipped the implementation.
+        /// </summary>
+        /// <param name="operationId"></param>
+        /// <param name="connectionParameters"></param>
+        /// <param name="serviceOperationRequest"></param>
+        /// <returns></returns>
         public Task<ServiceOperationResponse> InvokeActionOperation(string operationId, InsensitiveDictionary<JToken> connectionParameters, ServiceOperationRequest serviceOperationRequest)
         {
             throw new NotImplementedException();
         }
 
         /// <summary>
-        /// The receive documents operation service operation.
+        /// The receive documents operation which define the connection and top level design.
         /// </summary>
         private ServiceOperation GetReceiveDocumentServiceOperation()
         {
@@ -229,7 +247,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB
         }
 
         /// <summary>
-        /// The Azure cosmos db API.
+        /// The Azure cosmos db API which defines the connection.
         /// </summary>
         private ServiceOperationApi GetServiceOperationApi()
         {
