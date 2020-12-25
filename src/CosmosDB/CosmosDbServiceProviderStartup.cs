@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB
 {
     /// <summary>
-    /// This is a start up function, when function host starts,  the discovery of this extension is based upon IWebJobsStartup implementation. 
+    /// This is a start up function, the discovery of this extension is based upon IWebJobsStartup implementation. 
     /// In the function log file you should be able to see the log "Loading startup extension 'CosmosDbServiceProvider'"
     /// </summary>
     public class CosmosDbServiceProviderStartup : IWebJobsStartup
