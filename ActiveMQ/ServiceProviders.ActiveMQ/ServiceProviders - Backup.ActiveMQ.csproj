@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+   
+   
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AMQPNetLite.Core" Version="2.4.1" />
+    <PackageReference Include="Apache.NMS" Version="2.0.0" />
+    <PackageReference Include="Apache.NMS.AMQP" Version="1.8.1" />
+    <PackageReference Include="Microsoft.Azure.WebJobs" Version="3.0.25" />
+    <PackageReference Include="Microsoft.Azure.Workflows.WebJobs.Extension" Version="1.0.1.1-preview" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resource1.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="powershell  &quot;Set-ExecutionPolicy RemoteSigned&quot;&#xD;&#xA;powershell &quot;$(ProjectDir)\Add_to_logic_app_designer.ps1 '$(TargetPath)'  'Activemq'  'ServiceProviders.ActiveMQ.Extension.ActiveMQTriggerStartup'&quot;" />
+  </Target>
+
+</Project>

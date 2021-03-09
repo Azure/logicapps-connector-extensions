@@ -1,0 +1,57 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+   
+   
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="C:\Users\mobarqaw\.nuget\packages\microsoft.azure.workflows.webjobs.extension\1.0.1.1-preview\contentFiles\any\any\JS\Analysis\customError.js" />
+    <None Remove="C:\Users\mobarqaw\.nuget\packages\microsoft.azure.workflows.webjobs.extension\1.0.1.1-preview\contentFiles\any\any\JS\Analysis\helper.js" />
+    <None Remove="C:\Users\mobarqaw\.nuget\packages\microsoft.azure.workflows.webjobs.extension\1.0.1.1-preview\contentFiles\any\any\JS\Analysis\index.js" />
+    <None Remove="C:\Users\mobarqaw\.nuget\packages\microsoft.azure.workflows.webjobs.extension\1.0.1.1-preview\contentFiles\any\any\JS\Analysis\userCodeDependencyHandler.js" />
+    <None Remove="C:\Users\mobarqaw\.nuget\packages\microsoft.azure.workflows.webjobs.extension\1.0.1.1-preview\contentFiles\any\any\JS\node_modules\.bin\esparse" />
+    <None Remove="C:\Users\mobarqaw\.nuget\packages\microsoft.azure.workflows.webjobs.extension\1.0.1.1-preview\contentFiles\any\any\JS\node_modules\.bin\esvalidate" />
+    <None Remove="C:\Users\mobarqaw\.nuget\packages\microsoft.azure.workflows.webjobs.extension\1.0.1.1-preview\contentFiles\any\any\JS\node_modules\esprima\dist\esprima.js" />
+    <None Remove="C:\Users\mobarqaw\.nuget\packages\microsoft.azure.workflows.webjobs.extension\1.0.1.1-preview\contentFiles\any\any\JS\node_modules\esprima\LICENSE.BSD" />
+    <None Remove="C:\Users\mobarqaw\.nuget\packages\microsoft.azure.workflows.webjobs.extension\1.0.1.1-preview\contentFiles\any\any\JS\node_modules\esprima\package.json" />
+    <None Remove="C:\Users\mobarqaw\.nuget\packages\microsoft.azure.workflows.webjobs.extension\1.0.1.1-preview\contentFiles\any\any\JS\node_modules\estraverse\.babelrc" />
+    <None Remove="C:\Users\mobarqaw\.nuget\packages\microsoft.azure.workflows.webjobs.extension\1.0.1.1-preview\contentFiles\any\any\JS\node_modules\estraverse\.jshintrc" />
+    <None Remove="C:\Users\mobarqaw\.nuget\packages\microsoft.azure.workflows.webjobs.extension\1.0.1.1-preview\contentFiles\any\any\JS\node_modules\estraverse\estraverse.js" />
+    <None Remove="C:\Users\mobarqaw\.nuget\packages\microsoft.azure.workflows.webjobs.extension\1.0.1.1-preview\contentFiles\any\any\JS\node_modules\estraverse\gulpfile.js" />
+    <None Remove="C:\Users\mobarqaw\.nuget\packages\microsoft.azure.workflows.webjobs.extension\1.0.1.1-preview\contentFiles\any\any\JS\node_modules\estraverse\LICENSE.BSD" />
+    <None Remove="C:\Users\mobarqaw\.nuget\packages\microsoft.azure.workflows.webjobs.extension\1.0.1.1-preview\contentFiles\any\any\JS\node_modules\estraverse\package.json" />
+    <None Remove="C:\Users\mobarqaw\.nuget\packages\microsoft.azure.workflows.webjobs.extension\1.0.1.1-preview\contentFiles\any\any\JS\Runtime\customError.js" />
+    <None Remove="C:\Users\mobarqaw\.nuget\packages\microsoft.azure.workflows.webjobs.extension\1.0.1.1-preview\contentFiles\any\any\JS\Runtime\functionInputHandler.js" />
+    <None Remove="C:\Users\mobarqaw\.nuget\packages\microsoft.azure.workflows.webjobs.extension\1.0.1.1-preview\contentFiles\any\any\JS\Runtime\helper.js" />
+    <None Remove="C:\Users\mobarqaw\.nuget\packages\microsoft.azure.workflows.webjobs.extension\1.0.1.1-preview\contentFiles\any\any\JS\Runtime\index.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Apache.NMS.AMQP" Version="1.8.1" />
+    <PackageReference Include="Microsoft.Azure.WebJobs" Version="3.0.25" />
+    <PackageReference Include="Microsoft.Azure.Workflows.WebJobs.Extension" Version="1.0.1.1-preview" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resource1.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resource1.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resource1.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="powershell  &quot;Set-ExecutionPolicy RemoteSigned&quot;&#xD;&#xA;powershell &quot;$(ProjectDir)\Add_to_logic_app_designer.ps1 '$(TargetPath)'  'Activemq'  'ServiceProviders.ActiveMQ.Extension.ActiveMQTriggerStartup'&quot;" />
+  </Target>
+
+</Project>

@@ -1,0 +1,17 @@
+{
+  "serviceProviderConnections": {
+    "activemq": {
+      "parameterValues": {
+        "brokerUri": "@appsetting('activemq-brokerUri')",
+        "clientId": "@appsetting('activemq-clientId')",
+        "userName": "@appsetting('activemq-userName')",
+        "password": "@appsetting('activemq-password')"
+      },
+      "serviceProvider": {
+        "id": "/serviceProviders/activemq"
+      },
+      "displayName": "r"
+    }
+  },
+  "managedApiConnections": {}
+}
