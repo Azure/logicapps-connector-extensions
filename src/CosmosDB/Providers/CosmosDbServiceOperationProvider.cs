@@ -217,7 +217,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB
         /// <param name="connectionParameters"></param>
         /// <param name="serviceOperationRequest"></param>
         /// <returns></returns>
-        public Task<ServiceOperationResponse> InvokeActionOperation(string operationId, InsensitiveDictionary<JToken> connectionParameters, ServiceOperationRequest serviceOperationRequest)
+        public Task<ServiceOperationResponse> InvokeOperation(string operationId, InsensitiveDictionary<JToken> connectionParameters, ServiceOperationRequest serviceOperationRequest)
         {
             throw new NotImplementedException();
         }

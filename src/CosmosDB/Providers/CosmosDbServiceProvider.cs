@@ -1,4 +1,7 @@
-﻿using Microsoft.Azure.Documents;
+﻿// Copyright (c) .NET Foundation. All rights reserved.
+// Licensed under the MIT License. See License.txt in the project root for license information.
+
+using Microsoft.Azure.Documents;
 using Microsoft.Azure.WebJobs.Description;
 using Microsoft.Azure.WebJobs.Host.Config;
 using Microsoft.Azure.Workflows.ServiceProviders.Abstractions;
@@ -47,7 +50,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB
             List<JObject> jobjects = new List<JObject>();
             foreach(var doc in data)
             {
-                jobjects.Add((JObject)doc.ToJToken());
+                jobjects.Add(item: (JObject)doc.ToJToken());
             }
             return jobjects.ToArray();
         }
