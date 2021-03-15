@@ -13,7 +13,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{E5AB7828-C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CosmosDB", "CosmosDB", "{E03FD904-FE07-42B5-890A-695F19C1AF5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB.Tests", "test\CosmosDB\Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB.Tests\Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB.Tests.csproj", "{BA921F94-7106-48E3-A4ED-C752F5F4E6B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB.Tests", "test\CosmosDB\Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB.Tests\Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB.Tests.csproj", "{BA921F94-7106-48E3-A4ED-C752F5F4E6B1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{45DEA270-AE97-412B-8DF6-6DEEA570C01F}"
+	ProjectSection(SolutionItems) = preProject
+		azure-pipelines.yml = azure-pipelines.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
