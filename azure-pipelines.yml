@@ -1,27 +1,29 @@
-pool:
-  vmImage: 'windows-latest'
+- job: AzDevOpsLinux
+  displayName: AzDevOps Linux
+  pool:
+    vmImage: ubuntu-16.04
 
 variables:
   solution: '**/dirs.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
+  BuildPlatform: 'Any CPU'
+  BuildConfiguration: 'Release'
+  DotNetCoreVersion: '3.1.201'
 
 steps:
- 
-- task: NuGetToolInstaller@1
+ - task: UseDotNet@2
+    displayName: 'Install .NET Core $(DotNetCoreVersion)'
+    inputs:
+      packageType: 'sdk'
+      version: $(DotNetCoreVersion)
 
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet build'
+    inputs:
+      command: 'build'
+      arguments: '-property:"Platform=$(BuildPlatform);Configuration=$(BuildConfiguration)"'
 
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=false /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-
-- task: VSTest@2
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet test'
+    inputs:
+      command: 'test'
+      arguments: '--no-build -restore:false -property:VSTestNoBuild=true'
