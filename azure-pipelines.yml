@@ -1,6 +1,4 @@
-- job: AzDevOpsLinux
-  displayName: AzDevOps Linux
-  pool:
+pool:
     vmImage: ubuntu-16.04
 
 variables:
