@@ -1,4 +1,7 @@
-﻿$extensionPath=$args[0]
+﻿$extensionPath=Split-Path -parent $PSCommandPath
+$extensionPath = (get-item $extensionPath).parent.parent.FullName
+
+write-host "Nuget extension path is $extensionPath"
 $extensionName = "CosmosDB"
 $extensionNameServiceProvider = $extensionName+"ServiceProvider"
 
@@ -30,26 +33,30 @@ catch
   write-host "func.exe not found"
 }
 
-# Add Nuget package to existing project 
+# 1. Add Nuget package to existing project 
 dotnet add package "Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB" --version 1.0.0  --source $extensionPath
 
-$typeFullName =  "Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB.CosmosDBServiceProviderStartup, $fullAssemlyName"
+#  2. Update extensions.json under extension module
+
+$typeFullName =  "Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB.CosmosDBStartup, $fullAssemlyName"
 
 $newNode =  [pscustomobject] @{ 
   name = $extensionNameServiceProvider
   typeName = $typeFullName}
 
 
-#  1. Update extensions.json under extension module
-$a = Get-Content $extensionModulePath -raw | ConvertFrom-Json
-if ( ![bool]($a.extensions.name -match $extensionNameServiceProvider))
+$jsonContent = Get-Content $extensionModulePath -raw | ConvertFrom-Json
+if ( ![bool]($jsonContent.extensions.name -match $extensionNameServiceProvider))
 {
-$a.extensions += $newNode
-
-$a | ConvertTo-Json -depth 32| set-content $extensionModulePath
-
+	$jsonContent.extensions += $newNode
 }
+else
+{
+	$jsonContent.extensions | % {if($_.name -eq $extensionNameServiceProvider){$_.typeName=$typeFullName}}
+}
+$jsonContent | ConvertTo-Json -depth 32| set-content $extensionModulePath
 
+# 3. update dll in extension module.
 $spl = Split-Path $extensionModulePath
 Copy-Item $dll  -Destination $spl
 

@@ -1,34 +1,31 @@
 ﻿// Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-using Microsoft.Azure.Documents;
-using Microsoft.Azure.WebJobs.Description;
-using Microsoft.Azure.WebJobs.Host.Config;
-using Microsoft.Azure.Workflows.ServiceProviders.Abstractions;
-using Microsoft.WindowsAzure.ResourceStack.Common.Extensions;
-using Microsoft.WindowsAzure.ResourceStack.Common.Json;
-using Microsoft.WindowsAzure.ResourceStack.Common.Storage.Cosmos;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-
 namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB
 {
+    using System.Collections.Generic;
+    using Microsoft.Azure.Documents;
+    using Microsoft.Azure.WebJobs.Description;
+    using Microsoft.Azure.WebJobs.Host.Config;
+    using Microsoft.Azure.Workflows.ServiceProviders.Abstractions;
+    using Microsoft.WindowsAzure.ResourceStack.Common.Json;
+    using Newtonsoft.Json.Linq;
+
     /// <summary>
     /// Service Provider class which injects all the service operation provider..
     /// </summary>
-    [Extension("CosmosDbServiceProvider", configurationSection: "CosmosDbServiceProvider")]
-    public class CosmosDbServiceProvider : IExtensionConfigProvider
+    [Extension("CosmosDBServiceProvider", configurationSection: "CosmosDBServiceProvider")]
+    public class CosmosDBServiceProvider : IExtensionConfigProvider
     {
         /// <summary>
         /// Register the service provider.
         /// </summary>
         /// <param name="serviceOperationsProvider"></param>
         /// <param name="operationsProvider"></param>
-        public CosmosDbServiceProvider(ServiceOperationsProvider serviceOperationsProvider,
-            CosmosDbServiceOperationProvider operationsProvider)
+        public CosmosDBServiceProvider(ServiceOperationsProvider serviceOperationsProvider,
+            CosmosDBServiceOperationProvider operationsProvider)
         {
-            serviceOperationsProvider.RegisterService(serviceName: CosmosDbServiceOperationProvider.ServiceName, serviceOperationsProviderId: CosmosDbServiceOperationProvider.ServiceId, serviceOperationsProviderInstance: operationsProvider);
+            serviceOperationsProvider.RegisterService(serviceName: CosmosDBServiceOperationProvider.ServiceName, serviceOperationsProviderId: CosmosDBServiceOperationProvider.ServiceId, serviceOperationsProviderInstance: operationsProvider);
         }
 
         /// <summary>

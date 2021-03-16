@@ -1,24 +1,23 @@
-﻿using Microsoft.Azure.WebJobs.Description;
-using Microsoft.Azure.WebJobs.Host.Config;
-using Microsoft.Azure.Workflows.ServiceProviders.Abstractions;
-using Microsoft.Azure.Workflows.ServiceProviders.WebJobs.Abstractions.Providers;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.WindowsAzure.ResourceStack.Common.Collections;
-using Microsoft.WindowsAzure.ResourceStack.Common.Extensions;
-using Microsoft.WindowsAzure.ResourceStack.Common.Storage.Cosmos;
-using Microsoft.WindowsAzure.ResourceStack.Common.Swagger.Entities;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿// Copyright (c) .NET Foundation. All rights reserved.
+// Licensed under the MIT License. See License.txt in the project root for license information.
 
 namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Microsoft.Azure.Workflows.ServiceProviders.Abstractions;
+    using Microsoft.Azure.Workflows.ServiceProviders.WebJobs.Abstractions.Providers;
+    using Microsoft.WindowsAzure.ResourceStack.Common.Collections;
+    using Microsoft.WindowsAzure.ResourceStack.Common.Extensions;
+    using Microsoft.WindowsAzure.ResourceStack.Common.Swagger.Entities;
+    using Newtonsoft.Json.Linq;
+    
     /// <summary>
-    /// This is the main class where you define all the operations and apis.
+    /// This is the service operation provider class where you define all the operations and apis.
     /// </summary>
-    [ServiceOperationsProvider(Id = CosmosDbServiceOperationProvider.ServiceId, Name = CosmosDbServiceOperationProvider.ServiceName)]
-    public class CosmosDbServiceOperationProvider : IServiceOperationsTriggerProvider
+    [ServiceOperationsProvider(Id = CosmosDBServiceOperationProvider.ServiceId, Name = CosmosDBServiceOperationProvider.ServiceName)]
+    public class CosmosDBServiceOperationProvider : IServiceOperationsTriggerProvider
     {
         /// <summary>
         /// The service name.
@@ -40,7 +39,10 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB
         /// </summary>
         private readonly InsensitiveDictionary<ServiceOperation> apiOperationsList;
 
-        public CosmosDbServiceOperationProvider()
+        /// <summary>
+        /// Constructor for Service operation provider.
+        /// </summary>
+        public CosmosDBServiceOperationProvider()
         {
             this.serviceOperationsList = new List<ServiceOperation>();
             this.apiOperationsList = new InsensitiveDictionary<ServiceOperation>();
@@ -56,6 +58,12 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB
             });
         }
 
+        /// <summary>
+        /// Get binding connection information, needed for Azure function triggers.
+        /// </summary>
+        /// <param name="operationId"></param>
+        /// <param name="connectionParameters"></param>
+        /// <returns></returns>
         public string GetBindingConnectionInformation(string operationId, InsensitiveDictionary<JToken> connectionParameters)
         {
             return ServiceOperationsProviderUtilities
@@ -151,7 +159,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB
                             }
                         },
                         {
-                             "collectionName", new SwaggerSchema
+                            "collectionName", new SwaggerSchema
                             {
                                 Type = SwaggerSchemaType.String,
                                 Title = "collection name",
@@ -159,7 +167,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB
                             }
                         },
                         {
-                             "connectionStringSetting", new SwaggerSchema
+                            "connectionStringSetting", new SwaggerSchema
                             {
                                 Type = SwaggerSchemaType.String,
                                 Title = "Connection String",
@@ -192,19 +200,26 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB
             return "cosmosDBTrigger";
         }
 
+        /// <summary>
+        /// Get operations.
+        /// </summary>
+        /// <param name="expandManifest">Expand manifest generation.</param>
         public IEnumerable<ServiceOperation> GetOperations(bool expandManifest)
         {
             return expandManifest ? serviceOperationsList : GetApiOperations();
         }
 
         /// <summary>
-        /// Gets the operations.
+        /// Gets the api operations.
         /// </summary>
         private IEnumerable<ServiceOperation> GetApiOperations()
         {
             return this.apiOperationsList.Values;
         }
 
+        /// <summary>
+        /// Get service operation.
+        /// </summary>
         public ServiceOperationApi GetService()
         {
             return this.GetServiceOperationApi();
@@ -235,8 +250,8 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB
                 Properties = new ServiceOperationProperties
                 {
                     Api = this.GetServiceOperationApi().GetFlattenedApi(),
-                    Summary = "receive document",
-                    Description = "receive document",
+                    Summary = "Receive document",
+                    Description = "Receive document",
                     Visibility = Visibility.Important,
                     OperationType = OperationType.ServiceProvider,
                     BrandColor = 0x1C3A56,
@@ -261,7 +276,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB
                     BrandColor = 0xC4D5FF,
                     Description = "Connect to Azure Cosmos db to receive document.",
                     DisplayName = "Cosmos Db",
-                    IconUri = new Uri("https://raw.githubusercontent.com/praveensri/LogicAppCustomConnector/main/ServiceProviders.CosmosDb.Extensions/icon.png"),
+                    IconUri = new Uri("https://raw.githubusercontent.com/Azure//logicapps-connector-extensions/CosmosDB/src/CosmosDB/icon.png"),
                     Capabilities = new ApiCapability[] { ApiCapability.Triggers },
                     ConnectionParameters = new ConnectionParameters
                     {

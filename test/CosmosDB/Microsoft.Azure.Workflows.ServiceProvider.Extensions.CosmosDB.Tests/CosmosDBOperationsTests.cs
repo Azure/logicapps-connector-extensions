@@ -3,21 +3,13 @@
 
 namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB.Tests
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Microsoft.Azure.Cosmos;
-    using Microsoft.Azure.WebJobs.Host.TestCommon;
     using Microsoft.Azure.Workflows.ServiceProviders.Abstractions;
-    using Microsoft.Extensions.Configuration;
     using Microsoft.WindowsAzure.ResourceStack.Common.Json;
-    using Moq;
     using Xunit;
     using Xunit.Abstractions;
 
     /// <summary>
-    /// Cosmos DB End2End tests.
+    /// Cosmos DB operation tests.
     /// </summary>
     public class CosmosDBOperationsTests
     {
@@ -41,7 +33,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB.Tests
         [Fact]
         public void OperationConnectionParametersTest()
         {
-            var operations = new CosmosDbServiceOperationProvider();
+            var operations = new CosmosDBServiceOperationProvider();
             var connectionParameters = operations.GetService().Properties.ConnectionParameters as ConnectionParameters;
             var connectionStringParameters = new ConnectionStringParameters
             {

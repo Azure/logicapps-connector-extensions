@@ -1,7 +1,15 @@
 # Starter pipeline
+- task: UseDotNet@2
+displayName: 'Install .NET Core SDK'
+  inputs:
+    version: '3.0.x'
+    packageType: runtime
+
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
+
+
 - task: VSTest@2
   inputs:
     testSelector: 'testAssemblies'
@@ -16,7 +24,7 @@
 # https://aka.ms/yaml
 
 trigger:
-- main
+- CosmosDB
 
 pool:
   vmImage: ubuntu-latest
