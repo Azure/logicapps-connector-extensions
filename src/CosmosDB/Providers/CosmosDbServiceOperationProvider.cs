@@ -5,7 +5,9 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB
 {
     using System;
     using System.Collections.Generic;
+    using System.Drawing;
     using System.Threading.Tasks;
+    using Microsoft.Azure.Workflows.ServiceProvider.Extensions.Common;
     using Microsoft.Azure.Workflows.ServiceProviders.Abstractions;
     using Microsoft.Azure.Workflows.ServiceProviders.WebJobs.Abstractions.Providers;
     using Microsoft.WindowsAzure.ResourceStack.Common.Collections;
@@ -110,7 +112,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB
                             {
                                 Type = SwaggerSchemaType.Array,
                                 Title = "Receive document",
-                                Description = "Receive document description",
+                                Description = "Receive document from Azure Cosmos DB",
                                 Items = new SwaggerSchema
                                 {
                                     Type = SwaggerSchemaType.Object,
@@ -125,7 +127,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB
                                                 Description = "content",
                                             }
                                         },
-                                            {
+                                        {
                                                 "Properties", new SwaggerSchema
                                                 {
                                                     Type = SwaggerSchemaType.Object,
@@ -136,7 +138,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB
                                                         { "properties", new JObject { } },
                                                         { "required", new JObject { } },
                                                     },
-                                                    Description = "document data properties",
+                                                    Description = "Document DB data properties",
                                                 }
                                             },
                                         },
@@ -154,16 +156,16 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB
                             "databaseName", new SwaggerSchema
                             {
                                 Type = SwaggerSchemaType.String,
-                                Title = "database name",
-                                Description = "database name",
+                                Title = "Database name",
+                                Description = "Database name",
                             }
                         },
                         {
                             "collectionName", new SwaggerSchema
                             {
                                 Type = SwaggerSchemaType.String,
-                                Title = "collection name",
-                                Description = "collection name",
+                                Title = "Collection name",
+                                Description = "Collection name",
                             }
                         },
                         {
@@ -251,11 +253,11 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB
                 {
                     Api = this.GetServiceOperationApi().GetFlattenedApi(),
                     Summary = "Receive document",
-                    Description = "Receive document",
+                    Description = "Receive document from Azure Cosmos DB",
                     Visibility = Visibility.Important,
                     OperationType = OperationType.ServiceProvider,
-                    BrandColor = 0x1C3A56,
-                    IconUri = new Uri("https://raw.githubusercontent.com/praveensri/LogicAppCustomConnector/main/ServiceProviders.CosmosDb.Extensions/icon.png"),
+                    BrandColor = Color.LightSkyBlue.ToHexColor(),
+                    IconUri = new Uri("https://raw.githubusercontent.com/Azure/logicapps-connector-extensions/CosmosDB/src/CosmosDB/icon.png"),
                     Trigger = TriggerType.Batch,
                 },
             };
@@ -273,7 +275,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB
                 Type = DesignerApiType.ServiceProvider,
                 Properties = new ServiceOperationApiProperties
                 {
-                    BrandColor = 0xC4D5FF,
+                    BrandColor = Color.LightSkyBlue.ToHexColor(),
                     Description = "Connect to Azure Cosmos db to receive document.",
                     DisplayName = "Cosmos Db",
                     IconUri = new Uri("https://raw.githubusercontent.com/Azure//logicapps-connector-extensions/CosmosDB/src/CosmosDB/icon.png"),

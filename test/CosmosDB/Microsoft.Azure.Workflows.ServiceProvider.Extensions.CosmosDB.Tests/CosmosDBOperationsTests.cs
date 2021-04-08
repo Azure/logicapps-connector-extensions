@@ -54,5 +54,19 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB.Tests
             Assert.Equal(connectionParameters.ConnectionString.ToJson(), connectionStringParameters.ToJson());
             this.outputLogger.WriteLine("Connection parameters are matched");
         }
+
+        /// <summary>
+        /// Operation connection parameters test.
+        /// </summary>
+        [Fact]
+        public void OperationTriggerCapabilityTest()
+        {
+            var operations = new CosmosDBServiceOperationProvider();
+            var apiCapability = operations.GetService().Properties.Capabilities as ApiCapability[];
+
+            Assert.Equal(apiCapability.Length, 1);
+            Assert.Equal(apiCapability[0], ApiCapability.Triggers);
+            this.outputLogger.WriteLine("Connector supports only trigger");
+        }
     }
 }

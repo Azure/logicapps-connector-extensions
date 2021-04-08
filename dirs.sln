@@ -20,6 +20,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		azure-pipelines.yml = azure-pipelines.yml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{2108829F-8E0A-4F6D-BF07-E4BB34193D1E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Azure.Workflows.ServiceProvider.Extensions.Common", "src\Common\Microsoft.Azure.Workflows.ServiceProvider.Extensions.Common.csproj", "{216FA3A1-FEC2-49C9-9123-68771B546F9F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +38,10 @@ Global
 		{BA921F94-7106-48E3-A4ED-C752F5F4E6B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA921F94-7106-48E3-A4ED-C752F5F4E6B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA921F94-7106-48E3-A4ED-C752F5F4E6B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{216FA3A1-FEC2-49C9-9123-68771B546F9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{216FA3A1-FEC2-49C9-9123-68771B546F9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{216FA3A1-FEC2-49C9-9123-68771B546F9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{216FA3A1-FEC2-49C9-9123-68771B546F9F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -43,6 +51,8 @@ Global
 		{14B26AB8-DBDA-48FF-8DDE-76EAAAACFDBE} = {0BCE55FC-1587-4942-9024-D3C685450FEC}
 		{E03FD904-FE07-42B5-890A-695F19C1AF5C} = {E5AB7828-C313-4E8F-BBBA-DD051553B80E}
 		{BA921F94-7106-48E3-A4ED-C752F5F4E6B1} = {E03FD904-FE07-42B5-890A-695F19C1AF5C}
+		{2108829F-8E0A-4F6D-BF07-E4BB34193D1E} = {0BCE55FC-1587-4942-9024-D3C685450FEC}
+		{216FA3A1-FEC2-49C9-9123-68771B546F9F} = {2108829F-8E0A-4F6D-BF07-E4BB34193D1E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BFBA28BE-9B3B-4E33-A597-C95445B11C87}

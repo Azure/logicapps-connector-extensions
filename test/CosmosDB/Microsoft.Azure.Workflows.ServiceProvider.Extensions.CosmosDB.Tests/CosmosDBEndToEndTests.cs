@@ -3,69 +3,88 @@
 
 namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB.Tests
 {
-    using System;
     using System.Collections.Generic;
-    using System.Threading;
+    using System.Linq;
     using System.Threading.Tasks;
-    using Microsoft.Azure.Cosmos;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Azure.WebJobs;
     using Microsoft.Azure.WebJobs.Host.TestCommon;
+    using Microsoft.Azure.Workflows.ServiceProviders.Abstractions;
     using Microsoft.Extensions.Configuration;
-    using Moq;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.DependencyInjection.Extensions;
+    using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.Logging;
+    using Microsoft.WindowsAzure.ResourceStack.Common.Extensions;
     using Xunit;
-    using Xunit.Abstractions;
 
     /// <summary>
-    /// Cosmos DB End2End tests.
+    /// Cosmos DB end to end tests.
     /// </summary>
+    [Trait("Category", "E2E")]
     public class CosmosDBEndToEndTests
     {
-        private readonly ITestOutputHelper outputLogger;
+        /// <summary>
+        /// Logger provider.
+        /// </summary>
+        private readonly TestLoggerProvider loggerProvider = new TestLoggerProvider();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CosmosDBEndToEndTests"/> class.
+        /// CosmsoDB EndToEnd Test.
         /// </summary>
-        /// <param name="output">Output</param>
-        public CosmosDBEndToEndTests(ITestOutputHelper output)
-        {
-            this.outputLogger = output;
-
-            var config = new ConfigurationBuilder()
-                .AddEnvironmentVariables()
-                .AddTestSettings()
-                .Build();
-
-            // Add all test configuration to the environment as WebJobs requires a few of them to be in the environment
-            foreach (var kv in config.AsEnumerable())
-            {
-                Environment.SetEnvironmentVariable(kv.Key, kv.Value);
-            }
-
-            config.GetConnectionStringOrSetting(ServiceBus.Constants.DefaultConnectionStringName);
-
-
-            CosmosClient client = new CosmosClient(conn)
-            this.Cleanup().GetAwaiter().GetResult();
-        }
-
         [Fact]
-        public void Test1()
+        public async Task CosmosDBEndToEnd()
         {
-
+            using (var host = await this.StartHostAsync())
+            {
+                var alllogs = this.loggerProvider.GetAllLogMessages();
+                var logsList = alllogs.ToList();
+                Assert.True(logsList.Where(item => item.FormattedMessage.ContainsInsensitively("Job host started")).Count() >= 1);
+                var services = (CosmosDBServiceOperationProvider)host.Services.GetRequiredService(typeof(CosmosDBServiceOperationProvider));
+                Assert.NotNull(services);
+                var triggerType = services.GetFunctionTriggerType();
+                Assert.Equal("cosmosDBTrigger", triggerType);
+                var service = services.GetService();
+                Assert.Equal("/serviceProviders/cosmosdb", service.Id);
+                Assert.Equal("cosmosdb", service.Name);
+                var operations = services.GetOperations(false);
+                Assert.Single(operations.ToList());
+                Assert.Equal("receiveDocument", services.GetOperations(false).FirstOrDefault().Name);
+            }
         }
 
-        private async Task Cleanup()
+        /// <summary>
+        /// Start web host.
+        /// </summary>
+        /// <returns>IHost task.</returns>
+        private async Task<IHost> StartHostAsync()
         {
-            var tasks = new List<Task>
-            {
-                CleanUpEntity(FirstQueueName),
-                CleanUpEntity(SecondQueueName),
-                CleanUpEntity(BinderQueueName),
-                CleanUpEntity(FirstQueueName, _secondaryConnectionString),
-                CleanUpEntity(EntityNameHelper.FormatSubscriptionPath(TopicName, TopicSubscriptionName1)),
-                CleanUpEntity(EntityNameHelper.FormatSubscriptionPath(TopicName, TopicSubscriptionName2))
-            };
+            var localSettings = new Dictionary<string, string>();
+            localSettings["AzureWebJobsStorage"] = "UseDevelopmentStorage=true";
 
-            await Task.WhenAll(tasks);
+            var host = new HostBuilder()
+                 .ConfigureWebJobs(builder =>
+                 {
+                     builder.AddCosmosDB();
+                     var serviceOperationProvider = new ServiceOperationsProvider();
+                     var operationProvider = new CosmosDBServiceOperationProvider();
+                     builder.AddExtension(new CosmosDBServiceProvider(serviceOperationProvider, operationProvider));
+                     builder.Services.TryAddSingleton<CosmosDBServiceOperationProvider>();
+                 })
+                  .ConfigureLogging(b =>
+                  {
+                      b.AddProvider(this.loggerProvider);
+                  })
+                 .ConfigureAppConfiguration(c =>
+                 {
+                     c.AddInMemoryCollection(new[] {
+                        new KeyValuePair<string, string>("AzureWebJobsStorage", "UseDevelopmentStorage=true"),
+                        new KeyValuePair<string, string>("FUNCTIONS_WORKER_RUNTIME","dotnet"), });
+                 })
+                 .Build();
+
+            await host.StartAsync();
+            return host;
         }
     }
 }
