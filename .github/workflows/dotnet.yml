@@ -1,5 +1,7 @@
 name: .NET build and test
-
+env:
+  NUGET_VERSION: '5.3.1'           # set this to the dot net version to use
+  
 on:
   push:
     branches: [ main ]
@@ -13,12 +15,20 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Install Nuget
+      uses: nuget/setup-nuget@v1
+      with:
+        nuget-version: ${{ env.NUGET_VERSION}}
+    - name: NuGet to restore dependencies as well as project-specific tools that are specified in the project file
+      run: nuget restore
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.0
+    - name: Run MSBuild
+      run: msbuild .\dirs.sln
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.100
-    - name: Restore dependencies
-      run: dotnet restore dirs.sln
     - name: Build
       run: dotnet build dirs.sln 
     - name: Test
