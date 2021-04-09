@@ -30,9 +30,9 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB
         }
 
         /// <summary>
-        /// Cosmos DB trigger runtime provides the array of Document. In this method we convert it to generic JObject array.
+        /// Convert the array of Cosmos Document to generic JObject array.
         /// </summary>
-        /// <param name="data">Data.</param>
+        /// <param name="data">Document List.</param>
         /// <returns>JObject array.</returns>
         public static JObject[] ConvertDocumentToJObject(IReadOnlyList<Document> data)
         {
