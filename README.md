@@ -1,9 +1,9 @@
-This reposiory is for active debelopment of built-in connector extensibility for [Logic Apps preview doc](https://docs.microsoft.com/en-us/azure/logic-apps/logic-apps-overview-preview).
+This repository is for active development of built-in connector extensibility for Logic Apps preview. Visit [Logic Apps preview doc](https://docs.microsoft.com/en-us/azure/logic-apps/logic-apps-overview-preview) for more details.
 
 ## Getting started
-To get started for authoring the new built-in connector, visit [Logic app doc](https://docs.microsoft.com/en-us/azure/logic-apps/create-stateful-stateless-workflows-visual-studio-code#enable-built-in-connector-authoring)
+To get started for authoring the new built-in connector, refer [Logic app doc](https://docs.microsoft.com/en-us/azure/logic-apps/create-stateful-stateless-workflows-visual-studio-code#enable-built-in-connector-authoring)
 
-For tutorials, quick starts, visit the [blog](https://techcommunity.microsoft.com/t5/integrations-on-azure/azure-logic-apps-running-anywhere-built-in-connector/ba-p/1921272)
+For tutorials, quick starts, visit the [techcommunity blog](https://techcommunity.microsoft.com/t5/integrations-on-azure/azure-logic-apps-running-anywhere-built-in-connector/ba-p/1921272)
 
 ### Extension deployment
 To deploy the connector extension , you need to execute the poswershell script [add-extension.ps1](https://github.com/Azure/logicapps-connector-extensions/blob/main/src/Common/tools/add-extension.ps1) in the VS code logic app project as shown below:
