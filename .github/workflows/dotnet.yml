@@ -1,6 +1,9 @@
 name: .NET build and test
 env:
   NUGET_VERSION: '5.3.1'           # set this to the dot net version to use
+  AZURE_ARTIFACTS_FEED_URL: https://pkgs.dev.azure.com/.../nuget/v3/index.json            # set this to the registry url for your Azure Artifacts Feed, you will find this in Azure DevOps
+  BUILD_CONFIGURATION: 'Release'                                                          # set this to the appropriate build configuration
+  DOTNET_VERSION: '3.1.x'  
   
 on:
   push:
@@ -19,12 +22,7 @@ jobs:
       uses: nuget/setup-nuget@v1
       with:
         nuget-version: ${{ env.NUGET_VERSION}}
-    - name: NuGet to restore dependencies as well as project-specific tools that are specified in the project file
-      run: nuget restore
-    - name: Add msbuild to PATH
-      uses: microsoft/setup-msbuild@v1.0.0
-    - name: Run MSBuild
-      run: msbuild .\dirs.sln
+    - run: nuget restore dirs.sln
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
