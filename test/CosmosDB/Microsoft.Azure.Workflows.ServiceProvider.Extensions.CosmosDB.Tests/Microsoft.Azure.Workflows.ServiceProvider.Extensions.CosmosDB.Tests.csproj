@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\..\sign.snk</AssemblyOriginatorKeyFile>
+    <CodeAnalysisRuleSet>..\..\..\src.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,4 +30,8 @@
     <ProjectReference Include="..\..\..\src\Common\Microsoft.Azure.Workflows.ServiceProvider.Extensions.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <AdditionalFiles Include="$(SolutionDir)stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+  
 </Project>

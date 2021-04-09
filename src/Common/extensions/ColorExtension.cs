@@ -1,4 +1,6 @@
-﻿
+﻿// Copyright (c) .NET Foundation. All rights reserved.
+// Licensed under the MIT License. See License.txt in the project root for license information.
+
 namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.Common
 {
     using System;
@@ -13,6 +15,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.Common
         /// To hex color.
         /// </summary>
         /// <param name="color">Color</param>
+        /// <returns>unit.</returns>
         public static uint ToHexColor(this Color color)
         {
             return (uint)((color.A << 24) | (color.R << 16) |

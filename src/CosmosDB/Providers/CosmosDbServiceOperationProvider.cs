@@ -14,7 +14,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB
     using Microsoft.WindowsAzure.ResourceStack.Common.Extensions;
     using Microsoft.WindowsAzure.ResourceStack.Common.Swagger.Entities;
     using Newtonsoft.Json.Linq;
-    
+
     /// <summary>
     /// This is the service operation provider class where you define all the operations and apis.
     /// </summary>
@@ -42,7 +42,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB
         private readonly InsensitiveDictionary<ServiceOperation> apiOperationsList;
 
         /// <summary>
-        /// Constructor for Service operation provider.
+        /// Initializes a new instance of the <see cref="CosmosDBServiceOperationProvider"/> class.
         /// </summary>
         public CosmosDBServiceOperationProvider()
         {
@@ -56,16 +56,16 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB
 
             this.serviceOperationsList.AddRange(new List<ServiceOperation>
             {
-                {  this.GetReceiveDocumentServiceOperation().CloneWithManifest(this.GetServiceOperationManifest()) }
+                { this.GetReceiveDocumentServiceOperation().CloneWithManifest(this.GetServiceOperationManifest()) },
             });
         }
 
         /// <summary>
         /// Get binding connection information, needed for Azure function triggers.
         /// </summary>
-        /// <param name="operationId"></param>
-        /// <param name="connectionParameters"></param>
-        /// <returns></returns>
+        /// <param name="operationId">Operation id.</param>
+        /// <param name="connectionParameters">Connection parameters.</param>
+        /// <returns>string.</returns>
         public string GetBindingConnectionInformation(string operationId, InsensitiveDictionary<JToken> connectionParameters)
         {
             return ServiceOperationsProviderUtilities
@@ -78,9 +78,48 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB
         }
 
         /// <summary>
+        /// If the registration of service provider is successful then this should resturn the trigger type.
+        /// </summary>
+        /// <returns>string.</returns>
+        public string GetFunctionTriggerType()
+        {
+            return "cosmosDBTrigger";
+        }
+
+        /// <summary>
+        /// Get operations.
+        /// </summary>
+        /// <param name="expandManifest">Expand manifest generation.</param>
+        /// <returns>Service operation list.</returns>
+        public IEnumerable<ServiceOperation> GetOperations(bool expandManifest)
+        {
+            return expandManifest ? this.serviceOperationsList : this.GetApiOperations();
+        }
+
+        /// <summary>
+        /// Get service operation.
+        /// </summary>
+        /// <returns>Service operation api.</returns>
+        public ServiceOperationApi GetService()
+        {
+            return this.GetServiceOperationApi();
+        }
+
+        /// <summary>
+        /// The CosmosDB service provider is only trigger based connector hence skipped the implementation.
+        /// </summary>
+        /// <param name="operationId">Operation Id.</param>
+        /// <param name="connectionParameters">Connection parameters.</param>
+        /// <param name="serviceOperationRequest">Service operation request.</param>
+        /// <returns>Service operation response.</returns>
+        public Task<ServiceOperationResponse> InvokeOperation(string operationId, InsensitiveDictionary<JToken> connectionParameters, ServiceOperationRequest serviceOperationRequest)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Implements the Swagger schema defining the input , output and scope.
         /// </summary>
-        /// <returns></returns>
         private ServiceOperationManifest GetServiceOperationManifest()
         {
             return new ServiceOperationManifest
@@ -181,7 +220,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB
                     Required = new string[]
                     {
                         "databaseName",
-                        "collectionName"
+                        "collectionName",
                     },
                 },
                 Connector = this.GetServiceOperationApi(),
@@ -194,49 +233,11 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB
         }
 
         /// <summary>
-        /// If the registration of service provider is successful then this should resturn the trigger type.
-        /// </summary>
-        /// <returns></returns>
-        public string GetFunctionTriggerType()
-        {
-            return "cosmosDBTrigger";
-        }
-
-        /// <summary>
-        /// Get operations.
-        /// </summary>
-        /// <param name="expandManifest">Expand manifest generation.</param>
-        public IEnumerable<ServiceOperation> GetOperations(bool expandManifest)
-        {
-            return expandManifest ? serviceOperationsList : GetApiOperations();
-        }
-
-        /// <summary>
         /// Gets the api operations.
         /// </summary>
         private IEnumerable<ServiceOperation> GetApiOperations()
         {
             return this.apiOperationsList.Values;
-        }
-
-        /// <summary>
-        /// Get service operation.
-        /// </summary>
-        public ServiceOperationApi GetService()
-        {
-            return this.GetServiceOperationApi();
-        }
-
-        /// <summary>
-        /// The CosmosDB service provider is only trigger based connector hence skipped the implementation.
-        /// </summary>
-        /// <param name="operationId"></param>
-        /// <param name="connectionParameters"></param>
-        /// <param name="serviceOperationRequest"></param>
-        /// <returns></returns>
-        public Task<ServiceOperationResponse> InvokeOperation(string operationId, InsensitiveDictionary<JToken> connectionParameters, ServiceOperationRequest serviceOperationRequest)
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -294,11 +295,11 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB
                                 Constraints = new Constraints
                                 {
                                     Required = "true",
-                                }
-                            }
-                        }
-                    }
-                }
+                                },
+                            },
+                        },
+                    },
+                },
             };
          }
     }

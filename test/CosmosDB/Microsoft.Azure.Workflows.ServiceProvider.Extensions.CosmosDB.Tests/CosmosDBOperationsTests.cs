@@ -64,8 +64,8 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB.Tests
             var operations = new CosmosDBServiceOperationProvider();
             var apiCapability = operations.GetService().Properties.Capabilities as ApiCapability[];
 
-            Assert.Equal(apiCapability.Length, 1);
-            Assert.Equal(apiCapability[0], ApiCapability.Triggers);
+            Assert.Single(apiCapability);
+            Assert.Equal(ApiCapability.Triggers, apiCapability[0]);
             this.outputLogger.WriteLine("Connector supports only trigger");
         }
     }

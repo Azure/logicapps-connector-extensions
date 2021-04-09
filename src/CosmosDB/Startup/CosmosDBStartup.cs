@@ -9,7 +9,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB
     using Microsoft.Extensions.DependencyInjection.Extensions;
 
     /// <summary>
-    /// This is a start up function, the discovery of this extension is based upon IWebJobsStartup implementation. 
+    /// This is a start up function, the discovery of this extension is based upon IWebJobsStartup implementation.
     /// In the function log file you should be able to see the log "Loading startup extension 'CosmosDbServiceProvider'"
     /// </summary>
     public class CosmosDBStartup : IWebJobsStartup
@@ -17,7 +17,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB
         /// <summary>
         /// The Configure method is invoked as initialization of the extension.
         /// </summary>
-        /// <param name="builder"></param>
+        /// <param name="builder">Builder.</param>
         public void Configure(IWebJobsBuilder builder)
         {
             builder.AddExtension<CosmosDBServiceProvider>();

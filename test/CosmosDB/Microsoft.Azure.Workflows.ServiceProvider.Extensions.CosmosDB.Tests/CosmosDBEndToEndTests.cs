@@ -32,25 +32,24 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB.Tests
         /// <summary>
         /// CosmsoDB EndToEnd Test.
         /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
         public async Task CosmosDBEndToEnd()
         {
-            using (var host = await this.StartHostAsync())
-            {
-                var alllogs = this.loggerProvider.GetAllLogMessages();
-                var logsList = alllogs.ToList();
-                Assert.True(logsList.Where(item => item.FormattedMessage.ContainsInsensitively("Job host started")).Count() >= 1);
-                var services = (CosmosDBServiceOperationProvider)host.Services.GetRequiredService(typeof(CosmosDBServiceOperationProvider));
-                Assert.NotNull(services);
-                var triggerType = services.GetFunctionTriggerType();
-                Assert.Equal("cosmosDBTrigger", triggerType);
-                var service = services.GetService();
-                Assert.Equal("/serviceProviders/cosmosdb", service.Id);
-                Assert.Equal("cosmosdb", service.Name);
-                var operations = services.GetOperations(false);
-                Assert.Single(operations.ToList());
-                Assert.Equal("receiveDocument", services.GetOperations(false).FirstOrDefault().Name);
-            }
+            using var host = await this.StartHostAsync();
+            var alllogs = this.loggerProvider.GetAllLogMessages();
+            var logsList = alllogs.ToList();
+            Assert.True(logsList.Where(item => item.FormattedMessage.ContainsInsensitively("Job host started")).Count() >= 1);
+            var services = (CosmosDBServiceOperationProvider)host.Services.GetRequiredService(typeof(CosmosDBServiceOperationProvider));
+            Assert.NotNull(services);
+            var triggerType = services.GetFunctionTriggerType();
+            Assert.Equal("cosmosDBTrigger", triggerType);
+            var service = services.GetService();
+            Assert.Equal("/serviceProviders/cosmosdb", service.Id);
+            Assert.Equal("cosmosdb", service.Name);
+            var operations = services.GetOperations(false);
+            Assert.Single(operations.ToList());
+            Assert.Equal("receiveDocument", services.GetOperations(false).FirstOrDefault().Name);
         }
 
         /// <summary>
@@ -59,8 +58,10 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB.Tests
         /// <returns>IHost task.</returns>
         private async Task<IHost> StartHostAsync()
         {
-            var localSettings = new Dictionary<string, string>();
-            localSettings["AzureWebJobsStorage"] = "UseDevelopmentStorage=true";
+            var localSettings = new Dictionary<string, string>
+            {
+                ["AzureWebJobsStorage"] = "UseDevelopmentStorage=true",
+            };
 
             var host = new HostBuilder()
                  .ConfigureWebJobs(builder =>
@@ -77,9 +78,11 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.CosmosDB.Tests
                   })
                  .ConfigureAppConfiguration(c =>
                  {
-                     c.AddInMemoryCollection(new[] {
+                     c.AddInMemoryCollection(new[]
+                    {
                         new KeyValuePair<string, string>("AzureWebJobsStorage", "UseDevelopmentStorage=true"),
-                        new KeyValuePair<string, string>("FUNCTIONS_WORKER_RUNTIME","dotnet"), });
+                        new KeyValuePair<string, string>("FUNCTIONS_WORKER_RUNTIME", "dotnet"),
+                    });
                  })
                  .Build();
 
