@@ -1,9 +1,10 @@
 ﻿
 
-namespace ServiceProviders.ActiveMQ.Extension
+namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
 {
     using Apache.NMS;
     using Apache.NMS.AMQP;
+    using Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ;
     using Microsoft.Azure.Workflows.ServiceProviders.Abstractions;
     using Microsoft.Azure.Workflows.ServiceProviders.WebJobs.Abstractions.Providers;
     using Microsoft.WindowsAzure.ResourceStack.Common.Collections;
@@ -15,7 +16,7 @@ namespace ServiceProviders.ActiveMQ.Extension
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    [ServiceOperationsProvider(Id = ActiveMQTriggerServiceOperationProvider.ServiceId, Name = ActiveMQTriggerServiceOperationProvider.ServiceName)]
+    [ServiceOperationsProvider(Id = ServiceId, Name = ServiceName)]
     public class ActiveMQTriggerServiceOperationProvider : IServiceOperationsTriggerProvider
     {
         public const string ServiceName = "activemq";
@@ -26,6 +27,24 @@ namespace ServiceProviders.ActiveMQ.Extension
 
         private readonly InsensitiveDictionary<ServiceOperation> apiOperationsList;
 
+        public  readonly ServiceOperation ReceiveMessagesTrigger = new ServiceOperation
+        {
+            Name = "ActiveMQ_ReceiveMessages",
+            Id = "ActiveMQ Receive Messages",
+            Type = "ActiveMQ ReceiveMessages",
+            Properties = new ServiceOperationProperties
+            {
+                Api = AtiveMQTriggerApi.GetFlattenedApi(),
+                Summary = "ActiveMQ Receive Messages",
+                Description = "ActiveMQ Receive Messages",
+                Visibility = Visibility.Important,
+                OperationType = OperationType.ServiceProvider,
+                BrandColor = 0x1C3A56,
+                IconUri = new Uri(Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.Properties.Resources.IconUri),
+                Trigger = TriggerType.Batch,
+            },
+        };
+
         private static readonly ServiceOperationApi AtiveMQTriggerApi = new ServiceOperationApi
         {
             Name = "activemq",
@@ -34,7 +53,7 @@ namespace ServiceProviders.ActiveMQ.Extension
             Properties = new ServiceOperationApiProperties
             {
                 BrandColor = 0xC4D5FF,
-                IconUri = new Uri(Resource1.IconUri),
+                IconUri = new Uri(Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.Properties.Resources.IconUri),
                 Description = "AtiveMQ",
                 DisplayName = "AtiveMQ",
                 Capabilities = new ApiCapability[] { ApiCapability.Triggers },
@@ -106,15 +125,15 @@ namespace ServiceProviders.ActiveMQ.Extension
         /// </summary>
         public ActiveMQTriggerServiceOperationProvider()
         {
-            this.serviceOperationsList = new List<ServiceOperation>();
-            this.apiOperationsList = new InsensitiveDictionary<ServiceOperation>();
+            serviceOperationsList = new List<ServiceOperation>();
+            apiOperationsList = new InsensitiveDictionary<ServiceOperation>();
 
-            this.apiOperationsList.AddRange(new InsensitiveDictionary<ServiceOperation>
+            apiOperationsList.AddRange(new InsensitiveDictionary<ServiceOperation>
             {
                 { "ReceiveMessagesrigger", ReceiveMessagesTrigger },
             });
 
-            this.serviceOperationsList.AddRange(new List<ServiceOperation>
+            serviceOperationsList.AddRange(new List<ServiceOperation>
             {
                 {
                     ReceiveMessagesTrigger.CloneWithManifest(new ServiceOperationManifest
@@ -250,7 +269,7 @@ namespace ServiceProviders.ActiveMQ.Extension
         /// <param name="expandManifest">The expand anifest flag.</param>
         public IEnumerable<ServiceOperation> GetOperations(bool expandManifest)
         {
-            return expandManifest ? this.serviceOperationsList : this.GetApiOperations();
+            return expandManifest ? serviceOperationsList : GetApiOperations();
         }
 
         /// <summary>
@@ -258,7 +277,7 @@ namespace ServiceProviders.ActiveMQ.Extension
         /// </summary>
         private IEnumerable<ServiceOperation> GetApiOperations()
         {
-            return this.apiOperationsList.Values;
+            return apiOperationsList.Values;
         }
 
         public ServiceOperationApi GetService()
@@ -270,16 +289,15 @@ namespace ServiceProviders.ActiveMQ.Extension
             ServiceOperationRequest serviceOperationRequest)
         {
 
-            //System.IO.File.AppendAllText("c:\\temp\\lalogdll2.txt", $"\r\n({DateTime.Now}) start InvokeOperation ");
-
+          
             string Error = "";
             try
             {
-              
+
                 ServiceOpertionsProviderValidation.OperationId(operationId);
 
                 triggerPramsDto _triggerPramsDto = new triggerPramsDto(connectionParameters, serviceOperationRequest);
-              
+
                 var connectionFactory = new NmsConnectionFactory(_triggerPramsDto.UserName, _triggerPramsDto.Password, _triggerPramsDto.BrokerUri);
                 using (var connection = connectionFactory.CreateConnection())
                 {
@@ -297,9 +315,8 @@ namespace ServiceProviders.ActiveMQ.Extension
 
                                 for (int i = 0; i < _triggerPramsDto.MaximumNo; i++)
                                 {
-                                    var message = consumer.Receive(new TimeSpan(0,0,0,1)) as ITextMessage;
-                                    //System.IO.File.AppendAllText("c:\\temp\\lalogdll2.txt", $"\r\n({DateTime.Now}) message != null {(message != null).ToString()} ");
-                                    if (message != null)
+                                    var message = consumer.Receive(new TimeSpan(0, 0, 0, 1)) as ITextMessage;
+                                       if (message != null)
                                     {
                                         receiveMessages.Add(new JObject
                                     {
@@ -320,19 +337,17 @@ namespace ServiceProviders.ActiveMQ.Extension
                                 if (receiveMessages.Count == 0)
                                 {
 
-                                    //System.IO.File.AppendAllText("c:\\temp\\lalogdll2.txt", $"\r\n({DateTime.Now}) Skip  { JObject.FromObject(new { message = "No messages"} ) }");
-                                    return Task.FromResult((ServiceOperationResponse)new ActiveMQTriggerResponse(JObject.FromObject(new { message = "No messages" }), System.Net.HttpStatusCode.Accepted));
+                                        return Task.FromResult((ServiceOperationResponse)new ActiveMQTriggerResponse(JObject.FromObject(new { message = "No messages" }), System.Net.HttpStatusCode.Accepted));
                                 }
                                 else
                                 {
-                                //System.IO.File.AppendAllText("c:\\temp\\lalogdll2.txt", $"\r\n({DateTime.Now}) Ok  {JArray.FromObject(receiveMessages)}");
+                                
+                                    return Task.FromResult((ServiceOperationResponse)new ActiveMQTriggerResponse(JArray.FromObject(receiveMessages), System.Net.HttpStatusCode.OK));
 
-                                return Task.FromResult((ServiceOperationResponse)new ActiveMQTriggerResponse(JArray.FromObject(receiveMessages), System.Net.HttpStatusCode.OK));
-                          
                                 }
 
 
-                                 }
+                            }
                         }
                     }
                 }
@@ -340,28 +355,11 @@ namespace ServiceProviders.ActiveMQ.Extension
             catch (Exception e)
             {
                 Error = e.Message;
-                //System.IO.File.AppendAllText("c:\\temp\\lalogdll2.txt", $"\r\n({DateTime.Now}) error {e.Message}");
-            }
+             }
 
             return Task.FromResult((ServiceOperationResponse)new ActiveMQTriggerResponse(JObject.FromObject(new { message = Error }), System.Net.HttpStatusCode.InternalServerError));
         }
 
-        public static readonly ServiceOperation ReceiveMessagesTrigger = new ServiceOperation
-        {
-            Name = "ActiveMQ_ReceiveMessages",
-            Id = "ActiveMQ Receive Messages",
-            Type = "ActiveMQ ReceiveMessages",
-            Properties = new ServiceOperationProperties
-            {
-                Api = AtiveMQTriggerApi.GetFlattenedApi(),
-                Summary = "ActiveMQ Receive Messages",
-                Description = "ActiveMQ Receive Messages",
-                Visibility = Visibility.Important,
-                OperationType = OperationType.ServiceProvider,
-                BrandColor = 0x1C3A56,
-                IconUri = new Uri(Resource1.IconUri),
-                Trigger = TriggerType.Batch,
-            },
-        };
+
     }
 }

@@ -2,12 +2,12 @@
 // Copyright (c) Microsoft Corporation.  All rights reserved.
 //------------------------------------------------------------
 
-namespace ServiceProviders.ActiveMQ
+namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
 {
     using Microsoft.Azure.WebJobs.Description;
     using Microsoft.Azure.WebJobs.Host.Config;
     using Microsoft.Azure.Workflows.ServiceProviders.Abstractions;
-    using ServiceProviders.ActiveMQ.Extension;
+
 
     /// <summary>
     /// Custom test service provider.

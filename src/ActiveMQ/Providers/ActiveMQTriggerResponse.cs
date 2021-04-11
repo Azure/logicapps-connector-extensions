@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft Corporation.  All rights reserved.
 //------------------------------------------------------------;
 
-namespace ServiceProviders.ActiveMQ.Extension
+namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
 {
     using Microsoft.Azure.Workflows.ServiceProviders.Abstractions;
     using Newtonsoft.Json.Linq;

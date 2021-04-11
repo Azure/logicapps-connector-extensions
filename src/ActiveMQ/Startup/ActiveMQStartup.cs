@@ -2,18 +2,21 @@
 // Copyright (c) Microsoft Corporation.  All rights reserved.
 //------------------------------------------------------------
 
-[assembly: Microsoft.Azure.WebJobs.Hosting.WebJobsStartup(typeof(ServiceProviders.ActiveMQ.Extension.ActiveMQTriggerStartup))]
+using Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ;
 
-namespace ServiceProviders.ActiveMQ.Extension
+[assembly: Microsoft.Azure.WebJobs.Hosting.WebJobsStartup(typeof(ActiveMQStartup))]
+
+namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
 {
     using Microsoft.Azure.WebJobs;
     using Microsoft.Azure.WebJobs.Hosting;
+    using Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ;
     using Microsoft.Extensions.DependencyInjection.Extensions;
 
     /// <summary>
     /// Custom test startup class.
     /// </summary>
-    public class ActiveMQTriggerStartup : IWebJobsStartup
+    public class ActiveMQStartup : IWebJobsStartup
     {
         /// <summary>
         /// Configures the service provider here.

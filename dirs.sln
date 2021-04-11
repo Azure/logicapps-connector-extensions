@@ -26,6 +26,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{210882
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Azure.Workflows.ServiceProvider.Extensions.Common", "src\Common\Microsoft.Azure.Workflows.ServiceProvider.Extensions.Common.csproj", "{216FA3A1-FEC2-49C9-9123-68771B546F9F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ActiveMQ", "ActiveMQ", "{C544839A-97B0-40CE-B3AB-2F578BA471A4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ActiveMQ", "ActiveMQ", "{B8DDB424-E703-4841-B259-B46EBFBE6A01}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ", "src\ActiveMQ\Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.csproj", "{46048300-F4A8-4DF0-8D4A-1188D6797C01}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.Tests", "test\ActiveMQ\Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.Tests\Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.Tests.csproj", "{78A0F8C1-2670-482B-884A-96E104B6BB49}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +52,14 @@ Global
 		{216FA3A1-FEC2-49C9-9123-68771B546F9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{216FA3A1-FEC2-49C9-9123-68771B546F9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{216FA3A1-FEC2-49C9-9123-68771B546F9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46048300-F4A8-4DF0-8D4A-1188D6797C01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46048300-F4A8-4DF0-8D4A-1188D6797C01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46048300-F4A8-4DF0-8D4A-1188D6797C01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46048300-F4A8-4DF0-8D4A-1188D6797C01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78A0F8C1-2670-482B-884A-96E104B6BB49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78A0F8C1-2670-482B-884A-96E104B6BB49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78A0F8C1-2670-482B-884A-96E104B6BB49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78A0F8C1-2670-482B-884A-96E104B6BB49}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +71,10 @@ Global
 		{BA921F94-7106-48E3-A4ED-C752F5F4E6B1} = {E03FD904-FE07-42B5-890A-695F19C1AF5C}
 		{2108829F-8E0A-4F6D-BF07-E4BB34193D1E} = {0BCE55FC-1587-4942-9024-D3C685450FEC}
 		{216FA3A1-FEC2-49C9-9123-68771B546F9F} = {2108829F-8E0A-4F6D-BF07-E4BB34193D1E}
+		{C544839A-97B0-40CE-B3AB-2F578BA471A4} = {0BCE55FC-1587-4942-9024-D3C685450FEC}
+		{B8DDB424-E703-4841-B259-B46EBFBE6A01} = {E5AB7828-C313-4E8F-BBBA-DD051553B80E}
+		{46048300-F4A8-4DF0-8D4A-1188D6797C01} = {C544839A-97B0-40CE-B3AB-2F578BA471A4}
+		{78A0F8C1-2670-482B-884A-96E104B6BB49} = {B8DDB424-E703-4841-B259-B46EBFBE6A01}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BFBA28BE-9B3B-4E33-A597-C95445B11C87}
