@@ -22,9 +22,9 @@
         $extensionNameServiceProvider = $extensionName+"ServiceProvider"
 
         $userprofile = [environment]::GetFolderPath('USERPROFILE')
-        $dll =  Join-Path -Path $extensionPath -ChildPath "netcoreapp3.1"
+        $dllPath =  Join-Path -Path $extensionPath -ChildPath "netcoreapp3.1"
         $childPath = "Microsoft.Azure.Workflows.ServiceProvider.Extensions." + $extensionName + ".dll"
-        $dll =  Join-Path -Path $dll -ChildPath $childPath
+        $dll =  Join-Path -Path $dllPath -ChildPath $childPath
 
         if ( Test-Path -Path $dll )
         {
@@ -81,7 +81,7 @@
         $extensionFullName = "Microsoft.Azure.Workflows.ServiceProvider.Extensions." + $extensionName
         $startupClass = $extensionFullName + "." + $extensionName + "Startup"
         # 1. Add Nuget package to existing project 
-        dotnet add package $extensionFullName --version 1.0.0  --source $extensionPath
+        #dotnet add package $extensionFullName --version 1.0.0  --source $extensionPath
 
         #  2. Update extensions.json under extension module
         $typeFullName =  $startupClass + ", " + $fullAssemlyName
@@ -102,11 +102,11 @@
 
         # 3. update dll in extension module.
         $spl = Split-Path $extensionModulePath
-        Copy-Item $dll  -Destination $spl
+        Copy-Item -Path $dllPath\*.dll  -Destination $spl -recurse -verbose
 
         Write-host "Extension $extensionName is successfully added. "
     }
 }
 
 # execute the above function here.
-add-extension $args[0] $args[1]
+add-extension -Path $args[0] -Name $args[1]
