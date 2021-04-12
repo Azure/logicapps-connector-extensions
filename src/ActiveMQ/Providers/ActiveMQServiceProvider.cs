@@ -9,7 +9,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
 
 
     /// <summary>
-    /// Custom test service provider.
+    /// ActiveMQ service provider.
     /// </summary>
     [Extension("ActiveMQServiceProvider", configurationSection: "ActiveMQServiceProvider")]
     public class ActiveMQServiceProvider : IExtensionConfigProvider

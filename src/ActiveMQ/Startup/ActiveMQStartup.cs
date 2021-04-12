@@ -13,7 +13,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
     using Microsoft.Extensions.DependencyInjection.Extensions;
 
     /// <summary>
-    /// Custom test startup class.
+    /// ActiveMQ startup class.
     /// </summary>
     public class ActiveMQStartup : IWebJobsStartup
     {

@@ -10,22 +10,17 @@
     <NoWarn>$(NoWarn);NU5104;CS8002</NoWarn>
   </PropertyGroup>
 
-
   <ItemGroup>
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-
   </ItemGroup>
-
 
   <ItemGroup>
     <Compile Remove="LogicApp\**" />
     <EmbeddedResource Remove="LogicApp\**" />
     <None Remove="LogicApp\**" />
   </ItemGroup>
-
- 
 
   <ItemGroup>
     <PackageReference Include="Apache.NMS.AMQP" Version="1.8.1" />
@@ -50,5 +45,4 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-
 </Project>

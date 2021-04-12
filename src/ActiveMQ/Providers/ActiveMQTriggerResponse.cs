@@ -9,12 +9,12 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
     using System.Threading.Tasks;
 
     /// <summary>
-    /// The custom trigger response.
+    /// The ActiveMQ trigger response.
     /// </summary>
     public class ActiveMQTriggerResponse : ServiceOperationResponse
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CustomTriggerResponse"/> class.
+        /// Initializes a new instance of the <see cref="ActiveMQTriggerResponse"/> class.
         /// </summary>
         /// <param name="body">The body.</param>
         /// <param name="statusCode">The HTTP status code.</param>
