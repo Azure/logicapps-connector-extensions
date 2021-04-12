@@ -1,15 +1,14 @@
-﻿//------------------------------------------------------------
-// Copyright (c) Microsoft Corporation.  All rights reserved.
-//------------------------------------------------------------
-
-using Microsoft.Azure.Workflows.ServiceProviders.Abstractions;
-using Microsoft.WindowsAzure.ResourceStack.Common.Collections;
-using Microsoft.WindowsAzure.ResourceStack.Common.Extensions;
-using Newtonsoft.Json.Linq;
+﻿// Copyright (c) .NET Foundation. All rights reserved.
+// Licensed under the MIT License. See License.txt in the project root for license information.
 
 namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
 {
-    internal class triggerPramsDto
+    using Microsoft.Azure.Workflows.ServiceProviders.Abstractions;
+    using Microsoft.WindowsAzure.ResourceStack.Common.Collections;
+    using Microsoft.WindowsAzure.ResourceStack.Common.Extensions;
+    using Newtonsoft.Json.Linq;
+
+    internal class TriggerPramsDto
     {
         private InsensitiveDictionary<JToken> connectionParameters;
         private ServiceOperationRequest serviceOperationRequest;
@@ -22,7 +21,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
 
         public string QueueName { get; }
 
-        public triggerPramsDto(InsensitiveDictionary<JToken> connectionParameters, ServiceOperationRequest serviceOperationRequest)
+        public TriggerPramsDto(InsensitiveDictionary<JToken> connectionParameters, ServiceOperationRequest serviceOperationRequest)
         {
             this.connectionParameters = connectionParameters;
             this.serviceOperationRequest = serviceOperationRequest;

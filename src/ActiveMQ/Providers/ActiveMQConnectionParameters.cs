@@ -1,4 +1,7 @@
-﻿namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
+﻿// Copyright (c) .NET Foundation. All rights reserved.
+// Licensed under the MIT License. See License.txt in the project root for license information.
+
+namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
 {
     using Microsoft.Azure.Workflows.ServiceProviders.Abstractions;
 

@@ -1,4 +1,5 @@
-﻿
+﻿// Copyright (c) .NET Foundation. All rights reserved.
+// Licensed under the MIT License. See License.txt in the project root for license information.
 
 namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
 {
@@ -27,7 +28,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
 
         private readonly InsensitiveDictionary<ServiceOperation> apiOperationsList;
 
-        public  readonly ServiceOperation ReceiveMessagesTrigger = new ServiceOperation
+        public readonly ServiceOperation ReceiveMessagesTrigger = new ServiceOperation
         {
             Name = "ActiveMQ_ReceiveMessages",
             Id = "ActiveMQ Receive Messages",
@@ -296,7 +297,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
 
                 ServiceOpertionsProviderValidation.OperationId(operationId);
 
-                triggerPramsDto _triggerPramsDto = new triggerPramsDto(connectionParameters, serviceOperationRequest);
+                TriggerPramsDto _triggerPramsDto = new TriggerPramsDto(connectionParameters, serviceOperationRequest);
 
                 var connectionFactory = new NmsConnectionFactory(_triggerPramsDto.UserName, _triggerPramsDto.Password, _triggerPramsDto.BrokerUri);
                 using (var connection = connectionFactory.CreateConnection())
@@ -321,7 +322,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
                                         receiveMessages.Add(new JObject
                                     {
                                         { "contentData", message.Text },
-                                        { "Properties",new JObject{ { "NMSMessageId", message.NMSMessageId } } },
+                                        { "Properties", new JObject{ { "NMSMessageId", message.NMSMessageId } } },
                                     });
                                     }
                                     else
@@ -343,10 +344,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
                                 {
                                 
                                     return Task.FromResult((ServiceOperationResponse)new ActiveMQTriggerResponse(JArray.FromObject(receiveMessages), System.Net.HttpStatusCode.OK));
-
                                 }
-
-
                             }
                         }
                     }
@@ -359,7 +357,5 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
 
             return Task.FromResult((ServiceOperationResponse)new ActiveMQTriggerResponse(JObject.FromObject(new { message = Error }), System.Net.HttpStatusCode.InternalServerError));
         }
-
-
     }
 }
