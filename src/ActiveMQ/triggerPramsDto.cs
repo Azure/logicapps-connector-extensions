@@ -17,7 +17,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
         public string ClientId { get; }
         public string UserName { get; }
         public string Password { get; }
-        public int MaximumNo { get; }
+        public int MaximumNumber { get; }
 
         public string QueueName { get; }
 
@@ -31,7 +31,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
             UserName = ServiceOperationsProviderUtilities.GetParameterValue("UserName", connectionParameters).ToValue<string>();
             Password = ServiceOperationsProviderUtilities.GetParameterValue("Password", connectionParameters).ToValue<string>();
 
-            MaximumNo = serviceOperationRequest.Parameters["MaximumNo"].ToValue<int>();
+            MaximumNumber = serviceOperationRequest.Parameters["MaximumNumber"].ToValue<int>();
             QueueName = serviceOperationRequest.Parameters["queue"].ToValue<string>();
         }
     }

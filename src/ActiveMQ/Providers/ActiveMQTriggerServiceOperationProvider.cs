@@ -221,7 +221,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
                                 }
                             },
                             {
-                                 "MaximumNo", new SwaggerSchema
+                                 "MaximumNumber", new SwaggerSchema
                                 {
                                     Type = SwaggerSchemaType.Number,
                                     Title = "Maximum number of messages",
@@ -231,7 +231,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
                             Required = new string[]
                         {
                             "queue",
-                            "MaximumNo"
+                            "MaximumNumber"
                         },
                         },
                         Connector = AtiveMQTriggerApi,
@@ -314,7 +314,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
 
                                 List<JObject> receiveMessages = new List<JObject>();
 
-                                for (int i = 0; i < _triggerPramsDto.MaximumNo; i++)
+                                for (int i = 0; i < _triggerPramsDto.MaximumNumber; i++)
                                 {
                                     var message = consumer.Receive(new TimeSpan(0, 0, 0, 1)) as ITextMessage;
                                        if (message != null)
