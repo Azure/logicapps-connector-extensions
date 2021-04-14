@@ -17,12 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="LogicApp\**" />
-    <EmbeddedResource Remove="LogicApp\**" />
-    <None Remove="LogicApp\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Apache.NMS.AMQP" Version="1.8.1" />
     <PackageReference Include="Microsoft.Azure.WebJobs" Version="3.0.25" />
     <PackageReference Include="Microsoft.Azure.Workflows.WebJobs.Extension" Version="1.0.1.*-*" />

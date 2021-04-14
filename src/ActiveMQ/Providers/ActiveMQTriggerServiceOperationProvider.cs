@@ -5,18 +5,19 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
 {
     using Apache.NMS;
     using Apache.NMS.AMQP;
-    using Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ;
     using Microsoft.Azure.Workflows.ServiceProviders.Abstractions;
     using Microsoft.Azure.Workflows.ServiceProviders.WebJobs.Abstractions.Providers;
     using Microsoft.WindowsAzure.ResourceStack.Common.Collections;
     using Microsoft.WindowsAzure.ResourceStack.Common.Extensions;
     using Microsoft.WindowsAzure.ResourceStack.Common.Swagger.Entities;
-    using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    /// <summary>
+    /// This is the service operation provider class where you define all the operations and apis.
+    /// </summary>
     [ServiceOperationsProvider(Id = ServiceId, Name = ServiceName)]
     public class ActiveMQTriggerServiceOperationProvider : IServiceOperationsTriggerProvider
     {
@@ -286,27 +287,30 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
             return AtiveMQTriggerApi;
         }
 
+        /// <summary>
+        /// the InvokeOperation will be executed periodical to fitch the new ActiveMQ messages
+        /// </summary>
+        /// <param name="operationId"></param>
+        /// <param name="connectionParameters"></param>
+        /// <param name="serviceOperationRequest"></param>
+        /// <returns></returns>
         public Task<ServiceOperationResponse> InvokeOperation(string operationId, InsensitiveDictionary<JToken> connectionParameters,
             ServiceOperationRequest serviceOperationRequest)
         {
-
-          
-            string Error = "";
             try
             {
-
                 ServiceOpertionsProviderValidation.OperationId(operationId);
 
-                TriggerPramsDto _triggerPramsDto = new TriggerPramsDto(connectionParameters, serviceOperationRequest);
+                ActiveMQTriggerParameters activeMQTriggerParameters = new ActiveMQTriggerParameters(connectionParameters, serviceOperationRequest);
 
-                var connectionFactory = new NmsConnectionFactory(_triggerPramsDto.UserName, _triggerPramsDto.Password, _triggerPramsDto.BrokerUri);
+                var connectionFactory = new NmsConnectionFactory(activeMQTriggerParameters.UserName, activeMQTriggerParameters.Password, activeMQTriggerParameters.BrokerUri);
                 using (var connection = connectionFactory.CreateConnection())
                 {
-                    connection.ClientId = _triggerPramsDto.ClientId;
+                    connection.ClientId = activeMQTriggerParameters.ClientId;
 
                     using (var session = connection.CreateSession(AcknowledgementMode.Transactional))
                     {
-                        using (var queue = session.GetQueue(_triggerPramsDto.QueueName))
+                        using (var queue = session.GetQueue(activeMQTriggerParameters.QueueName))
                         {
                             using (var consumer = session.CreateConsumer(queue))
                             {
@@ -314,10 +318,10 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
 
                                 List<JObject> receiveMessages = new List<JObject>();
 
-                                for (int i = 0; i < _triggerPramsDto.MaximumNumber; i++)
+                                for (int i = 0; i < activeMQTriggerParameters.MaximumNumber; i++)
                                 {
                                     var message = consumer.Receive(new TimeSpan(0, 0, 0, 1)) as ITextMessage;
-                                       if (message != null)
+                                    if (message != null)
                                     {
                                         receiveMessages.Add(new JObject
                                     {
@@ -337,12 +341,10 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
 
                                 if (receiveMessages.Count == 0)
                                 {
-
-                                        return Task.FromResult((ServiceOperationResponse)new ActiveMQTriggerResponse(JObject.FromObject(new { message = "No messages" }), System.Net.HttpStatusCode.Accepted));
+                                    return Task.FromResult((ServiceOperationResponse)new ActiveMQTriggerResponse(JObject.FromObject(new { message = "No messages" }), System.Net.HttpStatusCode.Accepted));
                                 }
                                 else
                                 {
-                                
                                     return Task.FromResult((ServiceOperationResponse)new ActiveMQTriggerResponse(JArray.FromObject(receiveMessages), System.Net.HttpStatusCode.OK));
                                 }
                             }
@@ -352,10 +354,9 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
             }
             catch (Exception e)
             {
-                Error = e.Message;
-             }
-
-            return Task.FromResult((ServiceOperationResponse)new ActiveMQTriggerResponse(JObject.FromObject(new { message = Error }), System.Net.HttpStatusCode.InternalServerError));
+                var error = e.Message;
+                return Task.FromResult((ServiceOperationResponse)new ActiveMQTriggerResponse(JObject.FromObject(new { message = error }), System.Net.HttpStatusCode.InternalServerError));
+            }
         }
     }
 }

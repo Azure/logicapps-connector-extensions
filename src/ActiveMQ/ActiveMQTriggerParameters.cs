@@ -8,7 +8,10 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
     using Microsoft.WindowsAzure.ResourceStack.Common.Extensions;
     using Newtonsoft.Json.Linq;
 
-    internal class TriggerPramsDto
+    /// <summary>
+    /// combined the needed proprieties form the API and the action  in one class
+    /// </summary>
+    internal class ActiveMQTriggerParameters
     {
         private InsensitiveDictionary<JToken> connectionParameters;
         private ServiceOperationRequest serviceOperationRequest;
@@ -21,7 +24,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
 
         public string QueueName { get; }
 
-        public TriggerPramsDto(InsensitiveDictionary<JToken> connectionParameters, ServiceOperationRequest serviceOperationRequest)
+        public ActiveMQTriggerParameters(InsensitiveDictionary<JToken> connectionParameters, ServiceOperationRequest serviceOperationRequest)
         {
             this.connectionParameters = connectionParameters;
             this.serviceOperationRequest = serviceOperationRequest;

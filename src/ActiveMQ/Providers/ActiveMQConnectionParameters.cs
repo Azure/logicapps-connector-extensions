@@ -4,7 +4,9 @@
 namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
 {
     using Microsoft.Azure.Workflows.ServiceProviders.Abstractions;
-
+    /// <summary>
+    /// ActiveMQConnectionParameters API connection parameters 
+    /// </summary>
     public class ActiveMQConnectionParameters : ConnectionParameters
     {
         public ConnectionStringParameters BrokerUri { get; set; }
