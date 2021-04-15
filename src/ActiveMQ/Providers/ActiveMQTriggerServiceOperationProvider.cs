@@ -21,7 +21,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
     [ServiceOperationsProvider(Id = ServiceId, Name = ServiceName)]
     public class ActiveMQTriggerServiceOperationProvider : IServiceOperationsTriggerProvider
     {
-        private readonly TimeSpan messageReceveTimeout = new TimeSpan(0, 0, 0, 1);
+        private readonly TimeSpan messageReceiveTimeout = new TimeSpan(0, 0, 0, 1);
 
         public const string ServiceName = "activemq";
 
@@ -322,7 +322,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
 
                                 for (int i = 0; i < activeMQTriggerParameters.MaximumNumber; i++)
                                 {
-                                    var message = consumer.Receive(messageReceveTimeout) as ITextMessage;
+                                    var message = consumer.Receive(messageReceiveTimeout) as ITextMessage;
                                     if (message != null)
                                     {
                                         receiveMessages.Add(new JObject
