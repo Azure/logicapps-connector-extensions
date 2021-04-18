@@ -9,7 +9,6 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
 {
     using Microsoft.Azure.WebJobs;
     using Microsoft.Azure.WebJobs.Hosting;
-    using Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ;
     using Microsoft.Extensions.DependencyInjection.Extensions;
 
     /// <summary>

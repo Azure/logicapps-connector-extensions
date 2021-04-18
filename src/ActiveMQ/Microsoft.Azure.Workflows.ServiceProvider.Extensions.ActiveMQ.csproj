@@ -10,6 +10,10 @@
     <NoWarn>$(NoWarn);NU5104;CS8002</NoWarn>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\temp\logicapps-connector-extensions\src\ActiveMQ\Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004">
       <PrivateAssets>all</PrivateAssets>

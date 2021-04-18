@@ -7,6 +7,10 @@
     <CodeAnalysisRuleSet>..\..\..\src.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\temp\logicapps-connector-extensions\test\ActiveMQ\Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.Tests\Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.Tests.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.17.0" />

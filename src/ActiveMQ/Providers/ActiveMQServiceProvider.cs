@@ -7,7 +7,6 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
     using Microsoft.Azure.WebJobs.Host.Config;
     using Microsoft.Azure.Workflows.ServiceProviders.Abstractions;
 
-
     /// <summary>
     /// ActiveMQ service provider.
     /// </summary>

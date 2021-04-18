@@ -21,16 +21,34 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
     [ServiceOperationsProvider(Id = ServiceId, Name = ServiceName)]
     public class ActiveMQTriggerServiceOperationProvider : IServiceOperationsTriggerProvider
     {
+        /// <summary>
+        /// Amount of time to wait to receive new ActiveMQ message.
+        /// </summary>
         private readonly TimeSpan messageReceiveTimeout = new TimeSpan(0, 0, 0, 1);
 
+        /// <summary>
+        /// The service name.
+        /// </summary>
         public const string ServiceName = "activemq";
 
+        /// <summary>
+        /// The service id.
+        /// </summary>
         public const string ServiceId = "/serviceProviders/activemq";
 
+        /// <summary>
+        /// Gets or sets service Operations.
+        /// </summary>
         private readonly List<ServiceOperation> serviceOperationsList;
 
+        /// <summary>
+        /// The set of all API Operations.
+        /// </summary>
         private readonly InsensitiveDictionary<ServiceOperation> apiOperationsList;
 
+        /// <summary>
+        /// Get ReceiveMessagesTrigger Service Operation.
+        /// </summary>
         public readonly ServiceOperation ReceiveMessagesTrigger = new ServiceOperation
         {
             Name = "ActiveMQ_ReceiveMessages",
@@ -48,7 +66,9 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
                 Trigger = TriggerType.Batch,
             },
         };
-
+        /// <summary>
+        /// Get AtiveMQTriggerApi Service Operation.API used for the connection API.
+        /// </summary>
         private static readonly ServiceOperationApi AtiveMQTriggerApi = new ServiceOperationApi
         {
             Name = "activemq",
@@ -58,8 +78,8 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
             {
                 BrandColor = 0xC4D5FF,
                 IconUri = new Uri(Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.Properties.Resources.IconUri),
-                Description = "AtiveMQ",
-                DisplayName = "AtiveMQ",
+                Description = "ActiveMQ",
+                DisplayName = "ActiveMQ",
                 Capabilities = new ApiCapability[] { ApiCapability.Triggers },
                 ConnectionParameters = new ActiveMQConnectionParameters
                 {
@@ -284,13 +304,17 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
             return apiOperationsList.Values;
         }
 
+        /// <summary>
+        /// Get service operation.
+        /// </summary>
+        /// <returns>Service operation api.</returns>
         public ServiceOperationApi GetService()
         {
             return AtiveMQTriggerApi;
         }
 
         /// <summary>
-        /// the InvokeOperation will be executed periodical to fitch the new ActiveMQ messages
+        /// the InvokeOperation will be executed periodical to fetch the new ActiveMQ messages
         /// </summary>
         /// <param name="operationId"></param>
         /// <param name="connectionParameters"></param>
@@ -333,7 +357,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
                                     }
                                     else
                                     {
-                                        //the we will exit the loop if there are no message
+                                        //Will exit the loop if there are no message
                                         break;
                                     }
                                 }

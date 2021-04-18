@@ -9,7 +9,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
     using System.Threading.Tasks;
 
     /// <summary>
-    /// The ActiveMQ trigger response.
+    /// ActiveMQ trigger response.
     /// </summary>
     public class ActiveMQTriggerResponse : ServiceOperationResponse
     {

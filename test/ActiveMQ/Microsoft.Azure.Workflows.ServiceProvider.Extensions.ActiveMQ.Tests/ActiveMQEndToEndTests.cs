@@ -3,9 +3,6 @@
 
 namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.Tests
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Azure.WebJobs;
     using Microsoft.Azure.WebJobs.Host.TestCommon;
@@ -16,6 +13,9 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.Tests
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
     using Microsoft.WindowsAzure.ResourceStack.Common.Extensions;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
     using Xunit;
 
     /// <summary>
@@ -42,7 +42,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.Tests
             Assert.True(logsList.Where(item => item.FormattedMessage.ContainsInsensitively("Job host started")).Count() >= 1);
             var services = (ActiveMQTriggerServiceOperationProvider)host.Services.GetRequiredService(typeof(ActiveMQTriggerServiceOperationProvider));
             Assert.NotNull(services);
-         
+
             var service = services.GetService();
             Assert.Equal("/serviceProviders/activemq", service.Id);
             Assert.Equal("activemq", service.Name);
@@ -65,7 +65,6 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.Tests
             var host = new HostBuilder()
                  .ConfigureWebJobs(builder =>
                  {
-                     
                      var serviceOperationProvider = new ServiceOperationsProvider();
                      var operationProvider = new ActiveMQTriggerServiceOperationProvider();
                      builder.AddExtension(new ActiveMQServiceProvider(serviceOperationProvider, operationProvider));

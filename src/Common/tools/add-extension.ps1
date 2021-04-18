@@ -112,3 +112,4 @@
 
 # execute the above function here.
 #add-extension $args[0] $args[1]
+# or you can Import-Module C:\pathto the file\add-extension.ps1 then run add-extension 
