@@ -56,7 +56,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
             Type = "ActiveMQ ReceiveMessages",
             Properties = new ServiceOperationProperties
             {
-                Api = AtiveMQTriggerApi.GetFlattenedApi(),
+                Api = ActiveMQTriggerApi.GetFlattenedApi(),
                 Summary = "ActiveMQ Receive Messages",
                 Description = "ActiveMQ Receive Messages",
                 Visibility = Visibility.Important,
@@ -69,7 +69,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
         /// <summary>
         /// Get AtiveMQTriggerApi Service Operation.API used for the connection API.
         /// </summary>
-        private static readonly ServiceOperationApi AtiveMQTriggerApi = new ServiceOperationApi
+        private static readonly ServiceOperationApi ActiveMQTriggerApi = new ServiceOperationApi
         {
             Name = "activemq",
             Id = "/serviceProviders/activemq",
@@ -257,7 +257,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
                             "MaximumNumber"
                         },
                         },
-                        Connector = AtiveMQTriggerApi,
+                        Connector = ActiveMQTriggerApi,
                         Trigger = TriggerType.Batch,
                         Recurrence = new RecurrenceSetting
                         {
@@ -310,7 +310,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
         /// <returns>Service operation api.</returns>
         public ServiceOperationApi GetService()
         {
-            return AtiveMQTriggerApi;
+            return ActiveMQTriggerApi;
         }
 
         /// <summary>
