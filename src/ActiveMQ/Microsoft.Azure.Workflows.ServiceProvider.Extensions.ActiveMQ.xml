@@ -169,7 +169,12 @@
         </member>
         <member name="F:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQTriggerServiceOperationProvider.ReceiveMessagesTrigger">
             <summary>
-            Gwe ReceiveMessagesTrigger Service Operation.
+            Get ReceiveMessagesTrigger Service Operation.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQTriggerServiceOperationProvider.ActiveMQTriggerApi">
+            <summary>
+            Get AtiveMQTriggerApi Service Operation.API used for the connection API.
             </summary>
         </member>
         <member name="M:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQTriggerServiceOperationProvider.#ctor">

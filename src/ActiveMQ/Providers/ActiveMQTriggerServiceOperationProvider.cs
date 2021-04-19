@@ -5,6 +5,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
 {
     using Apache.NMS;
     using Apache.NMS.AMQP;
+    using Microsoft.Azure.Workflows.ServiceProvider.Extensions.Common;
     using Microsoft.Azure.Workflows.ServiceProviders.Abstractions;
     using Microsoft.Azure.Workflows.ServiceProviders.WebJobs.Abstractions.Providers;
     using Microsoft.WindowsAzure.ResourceStack.Common.Collections;
@@ -13,6 +14,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
     using Newtonsoft.Json.Linq;
     using System;
     using System.Collections.Generic;
+    using System.Drawing;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -61,7 +63,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
                 Description = "ActiveMQ Receive Messages",
                 Visibility = Visibility.Important,
                 OperationType = OperationType.ServiceProvider,
-                BrandColor = 0x1C3A56,
+                BrandColor = Color.DarkGray.ToHexColor(),
                 IconUri = new Uri(Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.Properties.Resources.IconUri),
                 Trigger = TriggerType.Batch,
             },
@@ -76,7 +78,7 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ
             Type = DesignerApiType.ServiceProvider,
             Properties = new ServiceOperationApiProperties
             {
-                BrandColor = 0xC4D5FF,
+                BrandColor = Color.DarkGray.ToHexColor(),
                 IconUri = new Uri(Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.Properties.Resources.IconUri),
                 Description = "ActiveMQ",
                 DisplayName = "ActiveMQ",
