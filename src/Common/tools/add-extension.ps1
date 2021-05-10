@@ -49,7 +49,7 @@
            throw "Extension bundle module path does not exist $extensionModulePath"
         }
 
-        $latest = Get-ChildItem -Path $extensionModulePath | Sort-Object LastAccessTime -Descending | Select-Object -First 1
+        $latest = Get-ChildItem -Path $extensionModulePath | Sort-Object name -Descending | Select-Object -First 1
         $latest.name
 
         $extensionModulePath = Join-Path -Path $extensionModulePath  -ChildPath $latest.name 
@@ -102,11 +102,14 @@
 
         # 3. update dll in extension module.
         $spl = Split-Path $extensionModulePath
+
         Copy-Item $dll  -Destination $spl
 
-        Write-host "Extension $extensionName is successfully added. "
+        Write-host "File  $dll is successfully Copied to folder $spl  "
+        Write-host "Extension $extensionName is successfully added.  "
     }
 }
 
 # execute the above function here.
-add-extension $args[0] $args[1]
+#add-extension $args[0] $args[1]
+# or you can Import-Module C:\pathto the file\add-extension.ps1 then run add-extension 

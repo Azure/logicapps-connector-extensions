@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.Tests</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.Tests.ActiveMQEndToEndTests">
+            <summary>
+            ActiveMQ end to end tests.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.Tests.ActiveMQEndToEndTests.loggerProvider">
+            <summary>
+            Logger provider.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.Tests.ActiveMQEndToEndTests.ActiveMQEndToEnd">
+            <summary>
+            ActiveMQ EndToEnd Test.
+            </summary>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous unit test.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.Tests.ActiveMQEndToEndTests.StartHostAsync">
+            <summary>
+            Start web host.
+            </summary>
+            <returns>IHost task.</returns>
+        </member>
+        <member name="T:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.Tests.ActiveMQOperationsTests">
+            <summary>
+            ActiveMQ operation tests.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.Tests.ActiveMQOperationsTests.outputLogger">
+            <summary>
+            output logger for test.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.Tests.ActiveMQOperationsTests.#ctor(Xunit.Abstractions.ITestOutputHelper)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.Tests.ActiveMQOperationsTests"/> class.
+            </summary>
+            <param name="output">Output</param>
+        </member>
+        <member name="M:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.Tests.ActiveMQOperationsTests.OperationConnectionParametersTest">
+            <summary>
+            Operation connection parameters test.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.Tests.ActiveMQOperationsTests.OperationTriggerCapabilityTest">
+            <summary>
+            Operation connection parameters test.
+            </summary>
+        </member>
+    </members>
+</doc>

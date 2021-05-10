@@ -1,0 +1,236 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQTriggerParameters">
+            <summary>
+            Combined the needed proprieties form the API and the action  in one class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQTriggerParameters.BrokerUri">
+            <summary>
+            BrokerUri ActiveMQ BrokerUri.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQTriggerParameters.ClientId">
+            <summary>
+            ClientId for the ActiveMQ client.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQTriggerParameters.UserName">
+            <summary>
+            The user name that will be used to connect to the BrokerUri.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQTriggerParameters.Password">
+            <summary>
+            Password.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQTriggerParameters.MaximumNumber">
+            <summary>
+            Maximum Number of messages to be received  in one trigger.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQTriggerParameters.QueueName">
+            <summary>
+            ActiveMQ Queue name.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQTriggerParameters.#ctor(Microsoft.WindowsAzure.ResourceStack.Common.Collections.InsensitiveDictionary{Newtonsoft.Json.Linq.JToken},Microsoft.Azure.Workflows.ServiceProviders.Abstractions.ServiceOperationRequest)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQTriggerParameters"/> class.
+            </summary>
+            <param name="connectionParameters"></param>
+            <param name="serviceOperationRequest"></param>
+        </member>
+        <member name="T:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.Properties.Resources.IconUri">
+            <summary>
+              Looks up a localized string similar to data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAAA/1BMVEVHcEwxABcPAAcDAAEXAAsuABYMAAZOACYCAAAGAAMFAAEhABBOACZCACAyABhEACFEACErABQOAAZZACssABUhABBBAB9UAChXACtKACRKACQ8AB0NAAY2ABo+AB4/AB5oADO4uLhpBDS3t7dmADL///9eAC6XcYKtoKZkADGnk5ukjJZsCzlwFUB0Hke3tba1srSDQ2CqmqG0sLJ7MVOTaXuITmmwpaqBPFylkJmbeIfm2N6KVGx4KU6yqa2GSWV/N1jOs76PXXOdfovVvsizrbCufpKSZHmhh5LDo6+TUG7Yw8vp3uKYW3Xu5un8+vq0r7Gpdoy4i5+6kqLayM9WdZUQAAAAIHRSTlMAuCIFRoEb/gERClzt0KfG9ps0/49s7Pb81+GbK9aytz26P6AAAAQASURBVFjDpVeHduIwEKSX0AkQLg [rest of string was truncated]&quot;;.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQConnectionParameters">
+            <summary>
+            ActiveMQConnectionParameters API connection parameters
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQConnectionParameters.BrokerUri">
+            <summary>
+            BrokerUri ActiveMQ BrokerUri.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQConnectionParameters.ClientId">
+            <summary>
+            ClientId for the ActiveMQ client.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQConnectionParameters.QueueName">
+            <summary>
+            ActiveMQ Queue name.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQConnectionParameters.UserName">
+            <summary>
+            The user name that will be used to connect to the BrokerUri.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQConnectionParameters.Password">
+            <summary>
+            Password.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQServiceProvider">
+            <summary>
+            ActiveMQ service provider.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQServiceProvider.#ctor(Microsoft.Azure.Workflows.ServiceProviders.Abstractions.ServiceOperationsProvider,Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQTriggerServiceOperationProvider)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQServiceProvider"/> class.
+            </summary>
+            <param name="serviceOperationsProvider">The service provider.</param>
+            <param name="operationsProvider">The operations provider.</param>
+        </member>
+        <member name="M:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQServiceProvider.Initialize(Microsoft.Azure.WebJobs.Host.Config.ExtensionConfigContext)">
+            <summary>
+            Initialize.
+            </summary>
+            <param name="context">The context.</param>
+        </member>
+        <member name="T:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQTriggerResponse">
+            <summary>
+            ActiveMQ trigger response.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQTriggerResponse.#ctor(Newtonsoft.Json.Linq.JToken,System.Net.HttpStatusCode)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQTriggerResponse"/> class.
+            </summary>
+            <param name="body">The body.</param>
+            <param name="statusCode">The HTTP status code.</param>
+        </member>
+        <member name="M:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQTriggerResponse.CompleteOperation">
+            <summary>
+            Completes the operation.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQTriggerResponse.FailOperation">
+            <summary>
+            Fails the operation.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQTriggerServiceOperationProvider">
+            <summary>
+            This is the service operation provider class where you define all the operations and apis.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQTriggerServiceOperationProvider.messageReceiveTimeout">
+            <summary>
+            Amount of time to wait to receive new ActiveMQ message.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQTriggerServiceOperationProvider.ServiceName">
+            <summary>
+            The service name.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQTriggerServiceOperationProvider.ServiceId">
+            <summary>
+            The service id.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQTriggerServiceOperationProvider.serviceOperationsList">
+            <summary>
+            Gets or sets service Operations.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQTriggerServiceOperationProvider.apiOperationsList">
+            <summary>
+            The set of all API Operations.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQTriggerServiceOperationProvider.ReceiveMessagesTrigger">
+            <summary>
+            Get ReceiveMessagesTrigger Service Operation.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQTriggerServiceOperationProvider.ActiveMQTriggerApi">
+            <summary>
+            Get AtiveMQTriggerApi Service Operation.API used for the connection API.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQTriggerServiceOperationProvider.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQTriggerServiceOperationProvider"/> class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQTriggerServiceOperationProvider.GetBindingConnectionInformation(System.String,Microsoft.WindowsAzure.ResourceStack.Common.Collections.InsensitiveDictionary{Newtonsoft.Json.Linq.JToken})">
+            <summary>
+            Gets the connection.
+            </summary>
+            <param name="operationId">The operation id.</param>
+            <param name="connectionParameters">The connection parameters.</param>
+        </member>
+        <member name="M:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQTriggerServiceOperationProvider.GetFunctionTriggerType">
+            <summary>
+            Trigger is not available.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQTriggerServiceOperationProvider.GetOperations(System.Boolean)">
+            <summary>
+            Gets the operations.
+            </summary>
+            <param name="expandManifest">The expand anifest flag.</param>
+        </member>
+        <member name="M:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQTriggerServiceOperationProvider.GetApiOperations">
+            <summary>
+            Gets the operations.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQTriggerServiceOperationProvider.GetService">
+            <summary>
+            Get service operation.
+            </summary>
+            <returns>Service operation api.</returns>
+        </member>
+        <member name="M:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQTriggerServiceOperationProvider.InvokeOperation(System.String,Microsoft.WindowsAzure.ResourceStack.Common.Collections.InsensitiveDictionary{Newtonsoft.Json.Linq.JToken},Microsoft.Azure.Workflows.ServiceProviders.Abstractions.ServiceOperationRequest)">
+            <summary>
+            the InvokeOperation will be executed periodical to fetch the new ActiveMQ messages
+            </summary>
+            <param name="operationId"></param>
+            <param name="connectionParameters"></param>
+            <param name="serviceOperationRequest"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQStartup">
+            <summary>
+            ActiveMQ startup class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.Workflows.ServiceProvider.Extensions.ActiveMQ.ActiveMQStartup.Configure(Microsoft.Azure.WebJobs.IWebJobsBuilder)">
+            <summary>
+            Configures the service provider here.
+            </summary>
+            <param name="builder">The builder.</param>
+        </member>
+    </members>
+</doc>
