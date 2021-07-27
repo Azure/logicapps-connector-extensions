@@ -1,8 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\..\sign.snk</AssemblyOriginatorKeyFile>
@@ -18,7 +19,10 @@
     <PackageReference Include="Microsoft.Azure.Workflows.WebJobs.Extension" Version="1.0.1.*-*" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Common\Microsoft.Azure.Workflows.ServiceProvider.Extensions.Common.csproj" />
+    <ProjectReference Include="..\Common\Microsoft.Azure.Workflows.ServiceProvider.Extensions.Common.csproj" >
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <IncludeAssets>Microsoft.Azure.Workflows.ServiceProvider.Extensions.Common.dll</IncludeAssets>
+     </ProjectReference>
   </ItemGroup>
 
   <ItemGroup>
@@ -30,6 +34,10 @@
   <ItemGroup>
     <AdditionalFiles Include="$(SolutionDir)stylecop.json" Link="stylecop.json" />
   </ItemGroup>
-
+  <Target DependsOnTargets="ResolveReferences" Name="CopyProjectReferencesToPackage">
+    <ItemGroup>
+      <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))"/>
+    </ItemGroup>
+  </Target>
  
 </Project>
