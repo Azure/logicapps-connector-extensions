@@ -1,0 +1,748 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "Any_functional_group": {
+                "actions": {
+                    "Append_TA_to_generatedAcks": {
+                        "actions": {
+                            "Append_TA_to_generatedAcks2": {
+                                "inputs": {
+                                    "name": "generatedAcks",
+                                    "value": {
+                                        "ackPayload": "@body('Parse_JSON')?['interchange']?['generatedTechnicalAcknowledgement']?['content']?['$content']",
+                                        "functionalAckExpected": false,
+                                        "isFunctionalAck": false,
+                                        "isTechnicalAck": true,
+                                        "technicalAckExpected": false,
+                                        "technicalAcknowledgement": {
+                                            "tA101": "@body('Parse_JSON')?['interchange']?['generatedTechnicalAcknowledgement']?['tA101']",
+                                            "tA102": "@body('Parse_JSON')?['interchange']?['generatedTechnicalAcknowledgement']?['tA102']",
+                                            "tA103": "@body('Parse_JSON')?['interchange']?['generatedTechnicalAcknowledgement']?['tA103']",
+                                            "tA104": "@body('Parse_JSON')?['interchange']?['generatedTechnicalAcknowledgement']?['tA104']",
+                                            "tA105": "@body('Parse_JSON')?['interchange']?['generatedTechnicalAcknowledgement']?['tA105']"
+                                        }
+                                    }
+                                },
+                                "type": "AppendToArrayVariable"
+                            }
+                        },
+                        "else": {
+                            "actions": {}
+                        },
+                        "expression": {
+                            "and": [
+                                {
+                                    "not": {
+                                        "equals": [
+                                            "@body('Parse_JSON')?['interchange']['generatedTechnicalAcknowledgement']",
+                                            "@null"
+                                        ]
+                                    }
+                                }
+                            ]
+                        },
+                        "type": "If"
+                    },
+                    "For_each_functional_group": {
+                        "actions": {
+                            "Append_to_array_variable": {
+                                "inputs": {
+                                    "name": "groupControlNumbers",
+                                    "value": "@items('For_each_functional_group')['functionalGroupControlNumber']"
+                                },
+                                "runAfter": {
+                                    "gsProperties": [
+                                        "SUCCEEDED"
+                                    ]
+                                },
+                                "type": "AppendToArrayVariable"
+                            },
+                            "For_each_transaction": {
+                                "actions": {
+                                    "Good_or_Bad": {
+                                        "actions": {
+                                            "Append_to_good_messages": {
+                                                "inputs": {
+                                                    "name": "goodMessages",
+                                                    "value": {
+                                                        "ReceiverIdentifier": "@outputs('Parse_JSON')?['body']?['interchange']?['agreement']?['receiverIdentifier']",
+                                                        "SenderIdentifier": "@outputs('Parse_JSON')?['body']?['interchange']?['agreement']?['senderIdentifier']",
+                                                        "agreementName": "@outputs('Parse_JSON')?['body']?['interchange']?['agreement']?['agreementName']",
+                                                        "componentSeparator": "@outputs('Parse_JSON')?['body']?['interchange']?['delimiterSetProperties']?['componentSeparator']",
+                                                        "dataElementSeparator": "@outputs('Parse_JSON')?['body']?['interchange']?['delimiterSetProperties']?['dataElementSeparator']",
+                                                        "functionalAckExpected": "@outputs('Integration_Account_Artifact_Lookup')?['properties']?['content']?['x12']?['receiveAgreement']?['protocolSettings']?['acknowledgementSettings']?['needFunctionalAcknowledgement']",
+                                                        "functionalGroupEnvelope": "@outputs('gsProperties')",
+                                                        "groupControlNumber": "@items('For_each_functional_group')['functionalGroupControlNumber']",
+                                                        "guestPartnerName": "@outputs('Parse_JSON')?['body']?['interchange']?['agreement']?['receiverPartnerName']",
+                                                        "hostPartnerName": "@outputs('Parse_JSON')?['body']?['interchange']?['agreement']?['senderPartnerName']",
+                                                        "interchangeControlNumber": "@body('Parse_JSON')?['interchange']?['interchangeControlNumber']",
+                                                        "interchangeEnvelope": "@outputs('isaProperties')",
+                                                        "payload": "@items('For_each_transaction')?['transactionSetContent']?['$content']",
+                                                        "receiverQualifier": "@outputs('Parse_JSON')?['body']?['interchange']?['agreement']?['receiverQualifier']",
+                                                        "replacementCharacter": "@outputs('Parse_JSON')?['body']?['interchange']?['delimiterSetProperties']?['replacementCharacter']",
+                                                        "segmentTerminator": "@outputs('Parse_JSON')?['body']?['interchange']?['delimiterSetProperties']?['segmentTerminator']",
+                                                        "segmentTerminatorSuffix": "@outputs('Parse_JSON')?['body']?['interchange']?['delimiterSetProperties']?['segmentTerminatorSuffix']",
+                                                        "senderQualifier": "@outputs('Parse_JSON')?['body']?['interchange']?['agreement']?['senderQualifier']",
+                                                        "technicalAckExpected": "@outputs('Integration_Account_Artifact_Lookup')?['properties']?['content']?['x12']?['receiveAgreement']?['protocolSettings']?['acknowledgementSettings']?['needTechnicalAcknowledgement']",
+                                                        "transactionSet": "@outputs('stProperties')",
+                                                        "transactionSetControlNumber": "@items('For_each_transaction')?['transactionSetControlNumber']"
+                                                    }
+                                                },
+                                                "type": "AppendToArrayVariable"
+                                            }
+                                        },
+                                        "else": {
+                                            "actions": {
+                                                "Append_to_badmessages": {
+                                                    "inputs": {
+                                                        "name": "badmessages",
+                                                        "value": {
+                                                            "ReceiverIdentifier": "@outputs('Parse_JSON')?['body']?['interchange']?['agreement']?['receiverIdentifier']",
+                                                            "SenderIdentifier": "@outputs('Parse_JSON')?['body']?['interchange']?['agreement']?['senderIdentifier']",
+                                                            "agreementName": "@outputs('Parse_JSON')?['body']?['interchange']?['agreement']?['agreementName']",
+                                                            "componentSeparator": "@outputs('Parse_JSON')?['body']?['interchange']?['delimiterSetProperties']?['componentSeparator']",
+                                                            "dataElementSeparator": "@outputs('Parse_JSON')?['body']?['interchange']?['delimiterSetProperties']?['dataElementSeparator']",
+                                                            "exception": "@items('For_each_transaction')?['transactionSetErrors']",
+                                                            "functionalAckExpected": "@outputs('Integration_Account_Artifact_Lookup')?['properties']?['content']?['x12']?['receiveAgreement']?['protocolSettings']?['acknowledgementSettings']?['needFunctionalAcknowledgement']",
+                                                            "functionalGroupEnvelope": "@outputs('gsProperties')",
+                                                            "groupControlNumber": "@items('For_each_functional_group')['functionalGroupControlNumber']",
+                                                            "guestPartnerName": "@outputs('Parse_JSON')?['body']?['interchange']?['agreement']?['receiverPartnerName']",
+                                                            "hostPartnerName": "@outputs('Parse_JSON')?['body']?['interchange']?['agreement']?['senderPartnerName']",
+                                                            "interchangeControlNumber": "@body('Parse_JSON')?['interchange']?['interchangeControlNumber']",
+                                                            "interchangeEnvelope": "@outputs('isaProperties')",
+                                                            "payload": "@items('For_each_transaction')?['transactionSetContent']?['$content']",
+                                                            "receiverQualifier": "@outputs('Parse_JSON')?['body']?['interchange']?['agreement']?['receiverQualifier']",
+                                                            "replacementCharacter": "@outputs('Parse_JSON')?['body']?['interchange']?['delimiterSetProperties']?['replacementCharacter']",
+                                                            "segmentTerminator": "@outputs('Parse_JSON')?['body']?['interchange']?['delimiterSetProperties']?['segmentTerminator']",
+                                                            "segmentTerminatorSuffix": "@outputs('Parse_JSON')?['body']?['interchange']?['delimiterSetProperties']?['segmentTerminatorSuffix']",
+                                                            "senderQualifier": "@outputs('Parse_JSON')?['body']?['interchange']?['agreement']?['senderQualifier']",
+                                                            "technicalAckExpected": "@outputs('Integration_Account_Artifact_Lookup')?['properties']?['content']?['x12']?['receiveAgreement']?['protocolSettings']?['acknowledgementSettings']?['needTechnicalAcknowledgement']",
+                                                            "transactionSet": "@outputs('stProperties')",
+                                                            "transactionSetControlNumber": "@items('For_each_transaction')?['transactionSetControlNumber']"
+                                                        }
+                                                    },
+                                                    "type": "AppendToArrayVariable"
+                                                }
+                                            }
+                                        },
+                                        "expression": {
+                                            "and": [
+                                                {
+                                                    "equals": [
+                                                        "@items('For_each_transaction')['isFailedTransactionSet']",
+                                                        false
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        "runAfter": {
+                                            "stProperties": [
+                                                "SUCCEEDED"
+                                            ]
+                                        },
+                                        "type": "If"
+                                    },
+                                    "stProperties": {
+                                        "inputs": {
+                                            "sE01": "@items('For_each_transaction')['seProperties']?['SE1']",
+                                            "sE02": "@items('For_each_transaction')['seProperties']?['SE2']",
+                                            "sT01": "@items('For_each_transaction')['stProperties']?['ST1']",
+                                            "sT02": "@items('For_each_transaction')['stProperties']?['ST2']"
+                                        },
+                                        "type": "Compose"
+                                    }
+                                },
+                                "foreach": "@item()?['transactionSets']",
+                                "runAfter": {
+                                    "Append_to_array_variable": [
+                                        "SUCCEEDED"
+                                    ]
+                                },
+                                "type": "foreach"
+                            },
+                            "acks": {
+                                "actions": {
+                                    "Append_to_FA_to_generated_acks": {
+                                        "inputs": {
+                                            "name": "generatedAcks",
+                                            "value": {
+                                                "ackPayload": "@items('For_each_functional_group')['generatedFunctionalAcknowledgement']?['content']?['$content']",
+                                                "functionalAckExpected": false,
+                                                "functionalAcknowledgement": {
+                                                    "header": "@items('For_each_functional_group')['generatedFunctionalAcknowledgement']?['header']",
+                                                    "trailer": "@items('For_each_functional_group')['generatedFunctionalAcknowledgement']?['trailer']"
+                                                },
+                                                "isFunctionalAck": true,
+                                                "isTechnicalAck": false,
+                                                "messageType": "@items('For_each_functional_group')['generatedFunctionalAcknowledgement']?['acknowledgementType']",
+                                                "technicalAckExpected": false
+                                            }
+                                        },
+                                        "type": "AppendToArrayVariable"
+                                    }
+                                },
+                                "else": {
+                                    "actions": {}
+                                },
+                                "expression": {
+                                    "and": [
+                                        {
+                                            "not": {
+                                                "equals": [
+                                                    "@items('For_each_functional_group')?['generatedFunctionalAcknowledgement']",
+                                                    "@null"
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                },
+                                "runAfter": {
+                                    "Append_to_array_variable": [
+                                        "SUCCEEDED"
+                                    ]
+                                },
+                                "type": "If"
+                            },
+                            "gsProperties": {
+                                "inputs": {
+                                    "gE01": "@items('For_each_functional_group')['geProperties']?['GE1']",
+                                    "gE02": "@items('For_each_functional_group')['geProperties']?['GE2']",
+                                    "gS01": "@items('For_each_functional_group')['gsProperties']?['GS1']",
+                                    "gS02": "@items('For_each_functional_group')['gsProperties']?['GS2']",
+                                    "gS03": "@items('For_each_functional_group')['gsProperties']?['GS3']",
+                                    "gS04": "@items('For_each_functional_group')['gsProperties']?['GS4']",
+                                    "gS05": "@items('For_each_functional_group')['gsProperties']?['GS5']",
+                                    "gS06": "@items('For_each_functional_group')['gsProperties']?['GS6']",
+                                    "gS07": "@items('For_each_functional_group')['gsProperties']?['GS7']",
+                                    "gS08": "@items('For_each_functional_group')['gsProperties']?['GS8']"
+                                },
+                                "type": "Compose"
+                            }
+                        },
+                        "foreach": "@outputs('Parse_JSON')?['body']?['interchange']?['functionalGroups']",
+                        "runAfter": {
+                            "isaProperties": [
+                                "SUCCEEDED"
+                            ]
+                        },
+                        "type": "foreach"
+                    },
+                    "isaProperties": {
+                        "inputs": {
+                            "ISA_Segment": "@outputs('Parse_JSON')?['body']?['interchange']?['isaSegment']",
+                            "isA05": "@outputs('Parse_JSON')?['body']?['interchange']?['isaProperties']?['ISA5']",
+                            "isA06": "@outputs('Parse_JSON')?['body']?['interchange']?['isaProperties']?['ISA6']",
+                            "isA07": "@outputs('Parse_JSON')?['body']?['interchange']?['isaProperties']?['ISA7']",
+                            "isA08": "@outputs('Parse_JSON')?['body']?['interchange']?['isaProperties']?['ISA8']",
+                            "isA09": "@outputs('Parse_JSON')?['body']?['interchange']?['isaProperties']?['ISA9']",
+                            "isA10": "@outputs('Parse_JSON')?['body']?['interchange']?['isaProperties']?['ISA10']",
+                            "isA11": "@outputs('Parse_JSON')?['body']?['interchange']?['isaProperties']?['ISA11']",
+                            "isA12": "@outputs('Parse_JSON')?['body']?['interchange']?['isaProperties']?['ISA12']",
+                            "isA13": "@outputs('Parse_JSON')?['body']?['interchange']?['isaProperties']?['ISA13']",
+                            "isA14": "@outputs('Parse_JSON')?['body']?['interchange']?['isaProperties']?['ISA14']",
+                            "isA15": "@outputs('Parse_JSON')?['body']?['interchange']?['isaProperties']?['ISA15']"
+                        },
+                        "type": "Compose"
+                    }
+                },
+                "else": {
+                    "actions": {}
+                },
+                "expression": {
+                    "and": [
+                        {
+                            "not": {
+                                "equals": [
+                                    "@body('Parse_JSON')?['interchange']?['functionalGroups']",
+                                    "@null"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "groupControlNumbers": [
+                        "SUCCEEDED"
+                    ]
+                },
+                "type": "If"
+            },
+            "Compose": {
+                "inputs": {
+                    "ReceiverIdentifier": "@body('Parse_JSON')?['interchange']?['agreement']['receiverIdentifier']",
+                    "SenderIdentifier": "@body('Parse_JSON')?['interchange']?['agreement']['senderIdentifier']",
+                    "agreementName": "@body('Parse_JSON')?['interchange']?['agreement']['agreementName']",
+                    "badMessages": "@variables('badmessages')",
+                    "generatedAcks": "@variables('generatedAcks')",
+                    "goodMessages": "@variables('goodMessages')",
+                    "groupControlNumbers": "@variables('groupControlNumbers')",
+                    "guestPartnerName": "@body('Parse_JSON')?['interchange']?['agreement']['receiverPartnerName']",
+                    "hostPartnerName": "@body('Parse_JSON')?['interchange']?['agreement']['senderPartnerName']",
+                    "interchangeControlNumber": "@body('Parse_JSON')?['interchange']?['interchangeControlNumber']",
+                    "receivedAcks": "@variables('receivedAcks')",
+                    "receiverQualifier": "@body('Parse_JSON')?['interchange']?['agreement']['receiverQualifier']",
+                    "senderQualifier": "@body('Parse_JSON')?['interchange']?['agreement']['senderQualifier']"
+                },
+                "runAfter": {
+                    "Any_functional_group": [
+                        "SUCCEEDED"
+                    ]
+                },
+                "type": "Compose"
+            },
+            "Integration_Account_Artifact_Lookup": {
+                "inputs": {
+                    "artifactName": "@outputs('Parse_JSON')?['body']?['interchange']?['agreement']?['agreementName']",
+                    "artifactType": "agreement"
+                },
+                "runAfter": {
+                    "badmessages": [
+                        "SUCCEEDED"
+                    ],
+                    "generatedAcks": [
+                        "SUCCEEDED"
+                    ],
+                    "good_messages": [
+                        "SUCCEEDED"
+                    ],
+                    "receivedAcks": [
+                        "SUCCEEDED"
+                    ]
+                },
+                "type": "IntegrationAccountArtifactLookup"
+            },
+            "Parse_JSON": {
+                "inputs": {
+                    "content": "@triggerBody()",
+                    "schema": {
+                        "properties": {
+                            "body": {
+                                "properties": {
+                                    "interchange": {
+                                        "properties": {
+                                            "agreement": {
+                                                "properties": {
+                                                    "agreementName": {
+                                                        "type": "string"
+                                                    },
+                                                    "receiverIdentifier": {
+                                                        "type": "string"
+                                                    },
+                                                    "receiverPartnerName": {
+                                                        "type": "string"
+                                                    },
+                                                    "receiverQualifier": {
+                                                        "type": "string"
+                                                    },
+                                                    "senderIdentifier": {
+                                                        "type": "string"
+                                                    },
+                                                    "senderPartnerName": {
+                                                        "type": "string"
+                                                    },
+                                                    "senderQualifier": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "delimiterSetProperties": {
+                                                "properties": {
+                                                    "componentSeparator": {
+                                                        "type": "integer"
+                                                    },
+                                                    "dataElementSeparator": {
+                                                        "type": "integer"
+                                                    },
+                                                    "decimalPointIndicator": {
+                                                        "type": "integer"
+                                                    },
+                                                    "escapeCharacter": {
+                                                        "type": "integer"
+                                                    },
+                                                    "repetitionSeparator": {
+                                                        "type": "integer"
+                                                    },
+                                                    "replacementCharacter": {
+                                                        "type": "integer"
+                                                    },
+                                                    "segmentTerminator": {
+                                                        "type": "integer"
+                                                    },
+                                                    "segmentTerminatorSuffix": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "functionalGroups": {
+                                                "items": {
+                                                    "properties": {
+                                                        "functionalGroupControlNumber": {
+                                                            "type": "string"
+                                                        },
+                                                        "geProperties": {
+                                                            "properties": {
+                                                                "GE1": {
+                                                                    "type": "string"
+                                                                },
+                                                                "GE2": {
+                                                                    "type": "string"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        },
+                                                        "gsProperties": {
+                                                            "properties": {
+                                                                "GS1": {
+                                                                    "type": "string"
+                                                                },
+                                                                "GS2": {
+                                                                    "type": "string"
+                                                                },
+                                                                "GS3": {
+                                                                    "type": "string"
+                                                                },
+                                                                "GS4": {
+                                                                    "type": "string"
+                                                                },
+                                                                "GS5": {
+                                                                    "type": "string"
+                                                                },
+                                                                "GS6": {
+                                                                    "type": "string"
+                                                                },
+                                                                "GS7": {
+                                                                    "type": "string"
+                                                                },
+                                                                "GS8": {
+                                                                    "type": "string"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        },
+                                                        "isFailedFunctionalGroup": {
+                                                            "type": "boolean"
+                                                        },
+                                                        "transactionSets": {
+                                                            "items": {
+                                                                "properties": {
+                                                                    "isFailedTransactionSet": {
+                                                                        "type": "boolean"
+                                                                    },
+                                                                    "seProperties": {
+                                                                        "properties": {
+                                                                            "SE1": {
+                                                                                "type": "string"
+                                                                            },
+                                                                            "SE2": {
+                                                                                "type": "string"
+                                                                            }
+                                                                        },
+                                                                        "type": "object"
+                                                                    },
+                                                                    "stProperties": {
+                                                                        "properties": {
+                                                                            "ST1": {
+                                                                                "type": "string"
+                                                                            },
+                                                                            "ST2": {
+                                                                                "type": "string"
+                                                                            }
+                                                                        },
+                                                                        "type": "object"
+                                                                    },
+                                                                    "transactionSetContent": {
+                                                                        "properties": {
+                                                                            "$content": {
+                                                                                "type": "string"
+                                                                            },
+                                                                            "$content-type": {
+                                                                                "type": "string"
+                                                                            }
+                                                                        },
+                                                                        "type": "object"
+                                                                    },
+                                                                    "transactionSetControlNumber": {
+                                                                        "type": "string"
+                                                                    }
+                                                                },
+                                                                "required": [
+                                                                    "stProperties",
+                                                                    "seProperties",
+                                                                    "transactionSetContent",
+                                                                    "transactionSetControlNumber",
+                                                                    "isFailedTransactionSet"
+                                                                ],
+                                                                "type": "object"
+                                                            },
+                                                            "type": "array"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "gsProperties",
+                                                        "geProperties",
+                                                        "transactionSets",
+                                                        "functionalGroupControlNumber",
+                                                        "isFailedFunctionalGroup"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "type": "array"
+                                            },
+                                            "ieaProperties": {
+                                                "properties": {
+                                                    "IEA1": {
+                                                        "type": "string"
+                                                    },
+                                                    "IEA2": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "interchangeControlNumber": {
+                                                "type": "string"
+                                            },
+                                            "isFailedInterchange": {
+                                                "type": "boolean"
+                                            },
+                                            "isaProperties": {
+                                                "properties": {
+                                                    "ISA1": {
+                                                        "type": "string"
+                                                    },
+                                                    "ISA10": {
+                                                        "type": "string"
+                                                    },
+                                                    "ISA11": {
+                                                        "type": "string"
+                                                    },
+                                                    "ISA12": {
+                                                        "type": "string"
+                                                    },
+                                                    "ISA13": {
+                                                        "type": "string"
+                                                    },
+                                                    "ISA14": {
+                                                        "type": "string"
+                                                    },
+                                                    "ISA15": {
+                                                        "type": "string"
+                                                    },
+                                                    "ISA16": {
+                                                        "type": "string"
+                                                    },
+                                                    "ISA2": {
+                                                        "type": "string"
+                                                    },
+                                                    "ISA3": {
+                                                        "type": "string"
+                                                    },
+                                                    "ISA4": {
+                                                        "type": "string"
+                                                    },
+                                                    "ISA5": {
+                                                        "type": "string"
+                                                    },
+                                                    "ISA6": {
+                                                        "type": "string"
+                                                    },
+                                                    "ISA7": {
+                                                        "type": "string"
+                                                    },
+                                                    "ISA8": {
+                                                        "type": "string"
+                                                    },
+                                                    "ISA9": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "isaSegment": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "runAfter": {},
+                "type": "ParseJson"
+            },
+            "Response": {
+                "inputs": {
+                    "body": "@outputs('Compose')",
+                    "statusCode": 200
+                },
+                "kind": "Http",
+                "runAfter": {
+                    "Compose": [
+                        "SUCCEEDED"
+                    ]
+                },
+                "type": "Response"
+            },
+            "badmessages": {
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "badmessages",
+                            "type": "array"
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "Parse_JSON": [
+                        "SUCCEEDED"
+                    ]
+                },
+                "type": "InitializeVariable"
+            },
+            "generatedAcks": {
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "generatedAcks",
+                            "type": "array"
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "Parse_JSON": [
+                        "SUCCEEDED"
+                    ]
+                },
+                "type": "InitializeVariable"
+            },
+            "good_messages": {
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "goodMessages",
+                            "type": "array"
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "Parse_JSON": [
+                        "SUCCEEDED"
+                    ]
+                },
+                "type": "InitializeVariable"
+            },
+            "groupControlNumbers": {
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "groupControlNumbers",
+                            "type": "array"
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "Integration_Account_Artifact_Lookup": [
+                        "SUCCEEDED"
+                    ]
+                },
+                "type": "InitializeVariable"
+            },
+            "receivedAcks": {
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "receivedAcks",
+                            "type": "array"
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "Parse_JSON": [
+                        "SUCCEEDED"
+                    ]
+                },
+                "type": "InitializeVariable"
+            },
+            "received_acks": {
+                "actions": {
+                    "Is_a_Technical_ack": {
+                        "actions": {
+                            "Append_to_TA_to_received_acks": {
+                                "inputs": {
+                                    "name": "receivedAcks",
+                                    "value": {
+                                        "ackPayload": "@body('Parse_JSON')?['interchange']?['receivedAcknowledgements']?['acknowledgementContent']?['$content']",
+                                        "technicalAcknowledgement": "@body('Parse_JSON')?['interchange']?['receivedAcknowledgements']?['technicalAcknowledgementProperties']"
+                                    }
+                                },
+                                "type": "AppendToArrayVariable"
+                            }
+                        },
+                        "else": {
+                            "actions": {
+                                "Append_to_FA_to_received_acks": {
+                                    "inputs": {
+                                        "name": "receivedAcks",
+                                        "value": {
+                                            "ackPayload": "@body('Parse_JSON')?['interchange']?['receivedAcknowledgements']?['acknowledgementContent']?['$content']",
+                                            "functionalAcknowledgement": "@body('Parse_JSON')?['interchange']?['receivedAcknowledgements']?['functionalAcknowledgementProperties']"
+                                        }
+                                    },
+                                    "type": "AppendToArrayVariable"
+                                }
+                            }
+                        },
+                        "expression": {
+                            "and": [
+                                {
+                                    "equals": [
+                                        "@body('Parse_JSON')?['interchange']?['receivedAcknowledgements']?['acknowledgementType']",
+                                        "TechnicalAcknowledgement"
+                                    ]
+                                }
+                            ]
+                        },
+                        "type": "If"
+                    }
+                },
+                "else": {
+                    "actions": {}
+                },
+                "expression": {
+                    "and": [
+                        {
+                            "not": {
+                                "equals": [
+                                    "@body('Parse_JSON')?['interchange']?['receivedAcknowledgements']",
+                                    "@null"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "Integration_Account_Artifact_Lookup": [
+                        "SUCCEEDED"
+                    ]
+                },
+                "type": "If"
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {},
+        "triggers": {
+            "When_a_HTTP_request_is_received": {
+                "kind": "Http",
+                "type": "Request"
+            }
+        }
+    },
+    "kind": "Stateful"
+}
