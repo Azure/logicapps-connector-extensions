@@ -1,0 +1,480 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "functionalGroups": {
+                "runAfter": {},
+                "type": "InitializeVariable",
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "functionalGroups",
+                            "type": "array"
+                        }
+                    ]
+                }
+            },
+            "transactionSets": {
+                "runAfter": {},
+                "type": "InitializeVariable",
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "transactionSets",
+                            "type": "array"
+                        }
+                    ]
+                }
+            },
+            "Response": {
+                "runAfter": {
+                    "For_each_Functional_Group": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "Response",
+                "kind": "Http",
+                "inputs": {
+                    "statusCode": 200,
+                    "body": "@variables('outputMessage')"
+                }
+            },
+            "outputMessage": {
+                "runAfter": {},
+                "type": "InitializeVariable",
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "outputMessage",
+                            "type": "object"
+                        }
+                    ]
+                }
+            },
+            "IsFunctionalGroup": {
+                "runAfter": {},
+                "type": "InitializeVariable",
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "IsFunctionalGroup",
+                            "type": "boolean",
+                            "value": false
+                        }
+                    ]
+                }
+            },
+            "Parse_JSON": {
+                "runAfter": {
+                    "functionalGroups": [
+                        "Succeeded"
+                    ],
+                    "IsFunctionalGroup": [
+                        "Succeeded"
+                    ],
+                    "transactionSets": [
+                        "Succeeded"
+                    ],
+                    "outputMessage": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "ParseJson",
+                "inputs": {
+                    "content": "@triggerBody()",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "isInterchangeWithGroups": {
+                                "type": "boolean"
+                            },
+                            "encodedMessageContent": {
+                                "type": "object",
+                                "properties": {
+                                    "$content-type": {
+                                        "type": "string"
+                                    },
+                                    "$content": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "agreement": {
+                                "type": "object",
+                                "properties": {
+                                    "senderPartnerName": {
+                                        "type": "string"
+                                    },
+                                    "receiverPartnerName": {
+                                        "type": "string"
+                                    },
+                                    "senderQualifier": {
+                                        "type": "string"
+                                    },
+                                    "senderIdentifier": {
+                                        "type": "string"
+                                    },
+                                    "receiverQualifier": {
+                                        "type": "string"
+                                    },
+                                    "receiverIdentifier": {
+                                        "type": "string"
+                                    },
+                                    "agreementName": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "delimiterSet": {
+                                "type": "object",
+                                "properties": {
+                                    "componentSeparator": {
+                                        "type": "integer"
+                                    },
+                                    "dataElementSeparator": {
+                                        "type": "integer"
+                                    },
+                                    "repetitionSeparator": {
+                                        "type": "integer"
+                                    },
+                                    "replacementCharacter": {
+                                        "type": "integer"
+                                    },
+                                    "segmentTerminator": {
+                                        "type": "integer"
+                                    },
+                                    "segmentTerminatorSuffix": {
+                                        "type": "string"
+                                    },
+                                    "escapeCharacter": {
+                                        "type": "integer"
+                                    },
+                                    "decimalPointIndicator": {
+                                        "type": "integer"
+                                    }
+                                }
+                            },
+                            "interchangeProperties": {
+                                "type": "object",
+                                "properties": {
+                                    "interchangeControlNumber": {
+                                        "type": "string"
+                                    },
+                                    "functionalGroups": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "groupControlNumber": {
+                                                    "type": "string"
+                                                },
+                                                "transactionSets": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "transactionSetControlNumber": {
+                                                                "type": "string"
+                                                            },
+                                                            "unhProperties": {
+                                                                "type": "object",
+                                                                "properties": {
+                                                                    "unh1": {
+                                                                        "type": "string"
+                                                                    },
+                                                                    "unh2Dot1": {
+                                                                        "type": "string"
+                                                                    },
+                                                                    "unh2Dot2": {
+                                                                        "type": "string"
+                                                                    },
+                                                                    "unh2Dot3": {
+                                                                        "type": "string"
+                                                                    },
+                                                                    "unh2Dot4": {
+                                                                        "type": "string"
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                },
+                                                "ungProperties": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "ung1": {
+                                                            "type": "string"
+                                                        },
+                                                        "ung2Dot1": {
+                                                            "type": "string"
+                                                        },
+                                                        "ung2Dot2": {
+                                                            "type": "string"
+                                                        },
+                                                        "ung3Dot1": {
+                                                            "type": "string"
+                                                        },
+                                                        "ung3Dot2": {
+                                                            "type": "string"
+                                                        },
+                                                        "ung4Dot1": {
+                                                            "type": "string"
+                                                        },
+                                                        "ung4Dot2": {
+                                                            "type": "string"
+                                                        },
+                                                        "ung5": {
+                                                            "type": "string"
+                                                        },
+                                                        "ung6": {
+                                                            "type": "string"
+                                                        },
+                                                        "ung7Dot1": {
+                                                            "type": "string"
+                                                        },
+                                                        "ung7Dot2": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "unbProperties": {
+                                        "type": "object",
+                                        "properties": {
+                                            "unb2Dot1": {
+                                                "type": "string"
+                                            },
+                                            "unb2Dot2": {
+                                                "type": "string"
+                                            },
+                                            "unb3Dot1": {
+                                                "type": "string"
+                                            },
+                                            "unb3Dot2": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "For_each_Functional_Group": {
+                "foreach": "@body('Parse_JSON')?['interchangeProperties']?['functionalGroups']",
+                "actions": {
+                    "For_each_Transactionset_in_Functional_Group": {
+                        "foreach": "@items('For_each_Functional_Group')?['transactionSets']",
+                        "actions": {
+                            "Add__Transactionset": {
+                                "type": "AppendToArrayVariable",
+                                "inputs": {
+                                    "name": "transactionSets",
+                                    "value": {
+                                        "transactionSetControlNumber": "@items('For_each_Transactionset_in_Functional_Group')?['transactionSetControlNumber']",
+                                        "UNH1": "@items('For_each_Transactionset_in_Functional_Group')?['unhProperties']?['unh1']",
+                                        "UNH2_1": "@items('For_each_Transactionset_in_Functional_Group')?['unhProperties']?['unh2Dot1']",
+                                        "UNH2_2": "@items('For_each_Transactionset_in_Functional_Group')?['unhProperties']?['unh2Dot2']",
+                                        "UNH2_3": "@items('For_each_Transactionset_in_Functional_Group')?['unhProperties']?['unh2Dot3']",
+                                        "UNH2_4": "@items('For_each_Transactionset_in_Functional_Group')?['unhProperties']?['unh2Dot4']"
+                                    }
+                                }
+                            }
+                        },
+                        "runAfter": {
+                            "Reset_Transactionsets": [
+                                "Succeeded"
+                            ]
+                        },
+                        "type": "Foreach",
+                        "runtimeConfiguration": {
+                            "concurrency": {
+                                "repetitions": 1
+                            }
+                        }
+                    },
+                    "Has_Functional_Groups": {
+                        "actions": {
+                            "Add_FunctionalGroup": {
+                                "runAfter": {
+                                    "Set_IsFunctionaGroup": [
+                                        "Succeeded"
+                                    ]
+                                },
+                                "type": "AppendToArrayVariable",
+                                "inputs": {
+                                    "name": "functionalGroups",
+                                    "value": {
+                                        "groupControlNumber": "@items('For_each_Functional_Group')?['groupControlNumber']",
+                                        "transactionSets": "@variables('transactionSets')",
+                                        "UNG1": "@items('For_each_Functional_Group')?['ungProperties']?['ung1']",
+                                        "UNG2_1": "@items('For_each_Functional_Group')?['ungProperties']?['ung2Dot1']",
+                                        "UNG2_2": "@items('For_each_Functional_Group')?['ungProperties']?['ung2Dot2']",
+                                        "UNG3_1": "@items('For_each_Functional_Group')?['ungProperties']?['ung3Dot1']",
+                                        "UNG3_2": "@items('For_each_Functional_Group')?['ungProperties']?['ung3Dot2']",
+                                        "UNG4_1": "@items('For_each_Functional_Group')?['ungProperties']?['ung4Dot1']",
+                                        "UNG4_2": "@items('For_each_Functional_Group')?['ungProperties']?['ung4Dot2']",
+                                        "UNG5": "@items('For_each_Functional_Group')?['ungProperties']?['ung5']",
+                                        "UNG6": "@items('For_each_Functional_Group')?['ungProperties']?['ung6']",
+                                        "UNG7_1": "@items('For_each_Functional_Group')?['ungProperties']?['ung7Dot1']",
+                                        "UNG7_2": "@items('For_each_Functional_Group')?['ungProperties']?['ung7Dot2']"
+                                    }
+                                }
+                            },
+                            "Set_IsFunctionaGroup": {
+                                "type": "SetVariable",
+                                "inputs": {
+                                    "name": "IsFunctionalGroup",
+                                    "value": true
+                                }
+                            }
+                        },
+                        "runAfter": {
+                            "For_each_Transactionset_in_Functional_Group": [
+                                "Succeeded"
+                            ]
+                        },
+                        "else": {
+                            "actions": {}
+                        },
+                        "expression": {
+                            "and": [
+                                {
+                                    "not": {
+                                        "equals": [
+                                            "@items('For_each_Functional_Group')?['groupControlNumber']",
+                                            "@null"
+                                        ]
+                                    }
+                                }
+                            ]
+                        },
+                        "type": "If"
+                    },
+                    "Reset_Transactionsets": {
+                        "type": "SetVariable",
+                        "inputs": {
+                            "name": "transactionSets",
+                            "value": "@null"
+                        }
+                    },
+                    "Create_Message_-_Has_Functional_Group": {
+                        "actions": {
+                            "Set_Output_Message_-_WithGroup": {
+                                "type": "SetVariable",
+                                "inputs": {
+                                    "name": "outputMessage",
+                                    "value": {
+                                        "interchange": {
+                                            "interchangeControlNumber": "@body('Parse_JSON')?['interchangeProperties']?['interchangeControlNumber']",
+                                            "functionalGroups": "@variables('functionalGroups')",
+                                            "UNB2_1": "@body('Parse_JSON')?['interchangeProperties']?['unbProperties']?['unb2Dot1']",
+                                            "UNB2_2": "@body('Parse_JSON')?['interchangeProperties']?['unbProperties']?['unb2Dot2']",
+                                            "UNB3_1": "@body('Parse_JSON')?['interchangeProperties']?['unbProperties']?['unb3Dot1']",
+                                            "UNB3_2": "@body('Parse_JSON')?['interchangeProperties']?['unbProperties']?['unb3Dot1']"
+                                        },
+                                        "content": "@body('Parse_JSON')?['encodedMessageContent']",
+                                        "agreementProperties": {
+                                            "agreementName": "@body('Parse_JSON')?['agreement']?['agreementName']",
+                                            "guestPartnerName": "@body('Parse_JSON')?['agreement']?['receiverPartnerName']",
+                                            "hostPartnerName": "@body('Parse_JSON')?['agreement']?['senderPartnerName']",
+                                            "ReceiverIdentifier": "@body('Parse_JSON')?['agreement']?['receiverIdentifier']",
+                                            "receiverQualifier": "@body('Parse_JSON')?['agreement']?['receiverQualifier']",
+                                            "SenderIdentifier": "@body('Parse_JSON')?['agreement']?['senderIdentifier']",
+                                            "senderQualifier": "@body('Parse_JSON')?['agreement']?['senderQualifier']"
+                                        },
+                                        "delimiters": {
+                                            "componentSeparator": "@body('Parse_JSON')?['delimiterSet']?['componentSeparator']",
+                                            "dataElementSeparator": "@body('Parse_JSON')?['delimiterSet']?['dataElementSeparator']",
+                                            "releaseIndicator": "@body('Parse_JSON')?['delimiterSet']?['escapeCharacter']",
+                                            "repetitionSeparator": "@body('Parse_JSON')?['delimiterSet']?['repetitionSeparator']",
+                                            "segmentTerminator": "@body('Parse_JSON')?['delimiterSet']?['segmentTerminator']",
+                                            "decimalIndicator": "@body('Parse_JSON')?['delimiterSet']?['decimalPointIndicator']"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "runAfter": {
+                            "Has_Functional_Groups": [
+                                "Succeeded"
+                            ]
+                        },
+                        "else": {
+                            "actions": {
+                                "Set_Output_Message_-_WithoutGroup": {
+                                    "type": "SetVariable",
+                                    "inputs": {
+                                        "name": "outputMessage",
+                                        "value": {
+                                            "interchange": {
+                                                "interchangeControlNumber": "@body('Parse_JSON')?['interchangeProperties']?['interchangeControlNumber']",
+                                                "transactionSets": "@variables('transactionSets')",
+                                                "UNB2_1": "@body('Parse_JSON')?['interchangeProperties']?['unbProperties']?['unb2Dot1']",
+                                                "UNB2_2": "@body('Parse_JSON')?['interchangeProperties']?['unbProperties']?['unb2Dot2']",
+                                                "UNB3_1": "@body('Parse_JSON')?['interchangeProperties']?['unbProperties']?['unb3Dot1']",
+                                                "UNB3_2": "@body('Parse_JSON')?['interchangeProperties']?['unbProperties']?['unb3Dot1']"
+                                            },
+                                            "content": "@body('Parse_JSON')?['encodedMessageContent']",
+                                            "agreementProperties": {
+                                                "agreementName": "@body('Parse_JSON')?['agreement']?['agreementName']",
+                                                "guestPartnerName": "@body('Parse_JSON')?['agreement']?['receiverPartnerName']",
+                                                "hostPartnerName": "@body('Parse_JSON')?['agreement']?['senderPartnerName']",
+                                                "ReceiverIdentifier": "@body('Parse_JSON')?['agreement']?['receiverIdentifier']",
+                                                "receiverQualifier": "@body('Parse_JSON')?['agreement']?['receiverQualifier']",
+                                                "SenderIdentifier": "@body('Parse_JSON')?['agreement']?['senderIdentifier']",
+                                                "senderQualifier": "@body('Parse_JSON')?['agreement']?['senderQualifier']"
+                                            },
+                                            "delimiters": {
+                                                "componentSeparator": "@body('Parse_JSON')?['delimiterSet']?['componentSeparator']",
+                                                "dataElementSeparator": "@body('Parse_JSON')?['delimiterSet']?['dataElementSeparator']",
+                                                "releaseIndicator": "@body('Parse_JSON')?['delimiterSet']?['escapeCharacter']",
+                                                "repetitionSeparator": "@body('Parse_JSON')?['delimiterSet']?['repetitionSeparator']",
+                                                "segmentTerminator": "@body('Parse_JSON')?['delimiterSet']?['segmentTerminator']",
+                                                "decimalIndicator": "@body('Parse_JSON')?['delimiterSet']?['decimalPointIndicator']"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "expression": {
+                            "and": [
+                                {
+                                    "equals": [
+                                        "@variables('IsFunctionalGroup')",
+                                        "@true"
+                                    ]
+                                }
+                            ]
+                        },
+                        "type": "If"
+                    }
+                },
+                "runAfter": {
+                    "Parse_JSON": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "Foreach",
+                "runtimeConfiguration": {
+                    "concurrency": {
+                        "repetitions": 1
+                    }
+                }
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {},
+        "triggers": {
+            "When_a_HTTP_request_is_received": {
+                "type": "Request",
+                "kind": "Http"
+            }
+        }
+    },
+    "kind": "Stateful"
+}
