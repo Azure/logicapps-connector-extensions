@@ -190,20 +190,25 @@ namespace Microsoft.Azure.Workflows.ServiceProvider.Extensions.SftpCustom
                 }
 
                 var fileContentType = "application/octet-stream";
-                if (inferFileContent)
+                if (inferFileContent && !MimeTypes.TryGetMimeType(metadata.Name, out fileContentType))
                 {
-                    MimeTypes.TryGetMimeType(metadata.Name, out fileContentType);
+                    fileContentType = "application/octet-stream";
                 }
 
+                var fileStream = session.GetFile(targetFileFullPath);
                 var wrapperStream = new SftpWrapperStream
                 {
                     AllowStreamSeek = false,
-                    ServiceProviderOperationStream = session.GetFile(targetFileFullPath),
-                    HandleStreamAccessException = exception => throw new ServiceOperationsProviderException(
+                    ServiceProviderOperationStream = fileStream,
+                    HandleStreamAccessException = exception =>
+                    {
+                        fileStream.Dispose();
+                        throw new ServiceOperationsProviderException(
                         httpStatus: HttpStatusCode.BadGateway,
                         errorCode: ServiceOperationsErrorResponseCode.ServiceOperationFailed,
                         errorMessage: $"Get file content failed unexpectedly",
-                        innerException: exception),
+                        innerException: exception);
+                    }
                 };
 
                 wrapperStream.SetLength(size);
