@@ -1,0 +1,57 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<SignAssembly>true</SignAssembly>
+		<AssemblyOriginatorKeyFile>..\..\sign.snk</AssemblyOriginatorKeyFile>
+		<CodeAnalysisRuleSet>..\..\src.ruleset</CodeAnalysisRuleSet>
+		<NoWarn>$(NoWarn);NU5104</NoWarn>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004">
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Azure.Workflows.WebJobs.Extension" Version="1.117.31" />
+		<PackageReference Include="WinSCP" Version="6.5.0" />
+		<PackageReference Include="MimeTypes" Version="2.2.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Common\Microsoft.Azure.Workflows.ServiceProvider.Extensions.Common.csproj">
+			<ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+			<IncludeAssets>Microsoft.Azure.Workflows.ServiceProvider.Extensions.Common.dll</IncludeAssets>
+		</ProjectReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="icon.png">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<AdditionalFiles Include="$(SolutionDir)stylecop.json" Link="stylecop.json" />
+	</ItemGroup>
+
+	<Target Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">
+		<ItemGroup>
+			<BuildOutputInPackage Include="@(ReferenceCopyLocalPaths-&gt;WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
+			<BuildOutputInPackage Include="@(ReferenceCopyLocalPaths-&gt;WithMetadataValue('Private', 'true'))" />
+		</ItemGroup>
+	</Target>
+
+	<Target Name="CopyWinSCPFilesToPackage" AfterTargets="Build">
+		<ItemGroup>
+			<BuildOutputInPackage Include="$(OutputPath)WinSCPnet.dll" />
+			<BuildOutputInPackage Include="$(OutputPath)WinSCP.exe" />
+		</ItemGroup>
+	</Target>
+
+</Project>
